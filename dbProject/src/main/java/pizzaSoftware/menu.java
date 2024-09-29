@@ -23,11 +23,11 @@ public class menu {
 
             while (resultSet.next()) {
                 Pizza pizza = new Pizza();
-                pizza.setPizzaId(resultSet.getInt("pizzaId"));
-                pizza.setPizzaName(resultSet.getString("pizzaName"));
-                pizza.setPrice(resultSet.getDouble("price"));
-                pizza.setVegetarian(resultSet.getBoolean("isVegetarian"));
-                pizza.setVegan(resultSet.getBoolean("isVegan"));
+                pizza.setPizzaId(resultSet.getInt("pizza_id"));
+                pizza.setPizzaName(resultSet.getString("pizza_name"));
+                pizza.setPrice(resultSet.getDouble("pizza_price"));
+                pizza.setVegetarian(resultSet.getBoolean("is_vegetarian"));
+                pizza.setVegan(resultSet.getBoolean("is_vegan"));
                 
                 pizzas.add(pizza);
             }
@@ -47,8 +47,8 @@ public class menu {
 
             while (resultSet.next()) {
                 Drink drink = new Drink();
-                drink.setDrinkId(resultSet.getInt("drinkId"));
-                drink.setDrinkName(resultSet.getString("drinkName"));
+                drink.setDrinkId(resultSet.getInt("drink_id"));
+                drink.setDrinkName(resultSet.getString("name"));
                 drink.setPrice(resultSet.getDouble("price"));
                 
                 drinks.add(drink);
@@ -69,8 +69,8 @@ public class menu {
 
             while (resultSet.next()) {
                 Dessert dessert = new Dessert();
-                dessert.setDessertId(resultSet.getInt("dessertId"));
-                dessert.setDessertName(resultSet.getString("dessertName"));
+                dessert.setDessertId(resultSet.getInt("dessert_id"));
+                dessert.setDessertName(resultSet.getString("name"));
                 dessert.setPrice(resultSet.getDouble("price"));
                 
                 desserts.add(dessert);
