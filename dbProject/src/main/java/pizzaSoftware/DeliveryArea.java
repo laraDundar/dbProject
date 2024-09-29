@@ -1,3 +1,5 @@
+package pizzaSoftware;
+
 public class DeliveryArea {
     private int areaId;
     private String postalCode;

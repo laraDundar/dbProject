@@ -1,3 +1,5 @@
+package pizzaSoftware;
+
 public class DeliveryPersonArea {
     private int deliveryPersonId;
     private int areaId;

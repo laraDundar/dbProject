@@ -1,3 +1,5 @@
+package pizzaSoftware;
+
 public class Ingredient {
     private int ingredientId;
     private String ingredientName;

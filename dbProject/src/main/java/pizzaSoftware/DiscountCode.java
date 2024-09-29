@@ -1,3 +1,5 @@
+package pizzaSoftware;
+
 public class DiscountCode {
     private int discountCodeId;
     private String code;

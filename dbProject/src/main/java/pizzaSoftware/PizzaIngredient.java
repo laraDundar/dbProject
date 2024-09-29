@@ -1,3 +1,5 @@
+package pizzaSoftware;
+
 public class PizzaIngredient {
     private int pizzaIngredientId;
     private int pizzaId;
