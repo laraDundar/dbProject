@@ -1,3 +1,6 @@
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 
 public class Customer {
@@ -8,14 +11,45 @@ public class Customer {
     private String phoneNumber;
     private String address;
     private String gender;
+    private String username;
     private LocalDate birthdate;
+    private String passwordHash;
 
     private int pizzaOrderCount;//number of ordered pizzas
-    private String discountCode;//one-time discount code
-
-    public Customer (String fisrtName, String lastName, String gender, LocalDate birsthdate, String phoneNumber, String address){
-
+    
+    public Customer (String email, String username, String firstName, String lastName, String gender, LocalDate birthdate, String phoneNumber, String address){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.birthdate = birthdate;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.pizzaOrderCount = 0;
+        this.email = email;
+        this.username = username;
     }
+
+    /**
+     * check if today it is the customer's birthday
+     * @return boolean 
+     */
+    public boolean isBirthday(){
+        LocalDate today = LocalDate.now();
+        return today.getDayOfMonth() == birthdate.getDayOfMonth() && today.getMonth() == birthdate.getMonth();
+    }
+
+    public void setPasswordHash (String passwordHash){
+        this.passwordHash = passwordHash;
+    }
+
+    public String getPasswordHash(){
+        return passwordHash;
+    }
+
+    public String getUsername(){
+        return username;
+    }
+
 
     public int getCustomerId(){
         return customerId;
