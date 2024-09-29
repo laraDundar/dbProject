@@ -12,23 +12,17 @@ public class dbConnector {
         Connection connection = null;
 
         try {
-            connection = DriverManager.getConnection(USER, PASS, DB_URL);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(DB_URL, USER, PASS);
             System.out.println("Connected to database successfully.");
             
         } catch (SQLException e) {
             e.printStackTrace();
             System.err.println("Connection failed: " + e.getMessage());
             
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                    System.out.println("Connection closed successfully.");
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+        } catch(ClassNotFoundException e) {
+            e.printStackTrace();
+            System.err.println("JDBC Driver cannot be found.");
         }
         return connection;
     }
