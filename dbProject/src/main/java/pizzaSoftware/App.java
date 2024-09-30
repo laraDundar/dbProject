@@ -18,10 +18,10 @@ public class App {
             if (connection != null) {
                 statement = connection.createStatement();
 
-            menu pizzaMenu = new menu(connection);
-            pizzaMenu.displayMenu();
+            //menu pizzaMenu = new menu(connection);
+            //pizzaMenu.displayMenu();
                 
-                /*String sqlQuery = "SELECT * FROM Customers";
+                String sqlQuery = "SELECT * FROM Customers";
                 resultSet = statement.executeQuery(sqlQuery);
 
 
@@ -47,7 +47,7 @@ public class App {
                                        ", Username: " + username +
                                        ", Password Hash: " + passwordHash +
                                        ", Zip Code: " + zipCode);
-                } */
+                } 
             }
             
         } catch (SQLException e) {
