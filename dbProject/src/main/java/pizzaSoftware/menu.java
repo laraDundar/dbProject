@@ -7,12 +7,53 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
+
 public class menu {
 
     private Connection connection;
 
     public menu(Connection connection) {
         this.connection = connection;
+    }
+
+    @FXML
+    private Label pizzaMenuLabel;
+
+    @FXML
+    private TableView<?> dessertsMenuTable;
+
+    @FXML
+    private Button cartButton;
+
+    @FXML
+    private Label drinksMenuLabel;
+
+    @FXML
+    private TableView<?> pizzaMenuTable;
+
+    @FXML
+    private TableView<?> drinksMenuTable;
+
+    @FXML
+    private Label dessertsMenuLabel;
+    
+    @FXML
+    private Button orderButton;
+
+    @FXML
+    void orderAction(ActionEvent event) {
+
+    }
+
+
+     @FXML
+    void cartButtonAction(ActionEvent event) {
+
     }
 
     public List<Pizza> getPizzas() {
