@@ -5,6 +5,17 @@ public class Dessert {
     private String dessertName;
     private double price;
 
+    //this is ok
+    /** 
+     * constructor for Dessert
+     */
+    public Dessert(int dessertId, String name, double price) {
+        this.dessertId = dessertId;
+        this.dessertName = name;
+        this.price = price;
+    }
+
+    //getters and setters for Dessert
     public int getDessertId() {
         return dessertId;
     }

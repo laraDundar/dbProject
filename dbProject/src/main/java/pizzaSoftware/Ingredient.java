@@ -3,9 +3,20 @@ package pizzaSoftware;
 public class Ingredient {
     private int ingredientId;
     private String ingredientName;
-    private double cost;
+    private double price;
     private boolean isVegetarian;
     private boolean isVegan;
+
+    //this is ok
+    //getters and setters for Ingredient
+
+    public Ingredient (int ingredient_id, String ingredientName, double price, boolean isVegetarian, boolean isVegan){
+        this.ingredientId = ingredient_id;
+        this.ingredientName = ingredientName;
+        this.price = price;
+        this.isVegan = isVegan;
+        this.isVegetarian = isVegetarian;
+    }
 
     public int getIngredientId() {
         return ingredientId;
@@ -23,12 +34,12 @@ public class Ingredient {
         this.ingredientName = ingredientName;
     }
 
-    public double getCost() {
-        return cost;
+    public double getPrice() {
+        return price;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public boolean isVegetarian() {

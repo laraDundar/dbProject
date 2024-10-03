@@ -1,16 +1,22 @@
 package pizzaSoftware;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class Order {
     private int orderId;
     private int customerId;
     private Timestamp orderTimestamp;
     private String status;
-    private Timestamp estimatedDeliveryTime;
+    private int estimatedDeliveryTime;
     private double price;
     private int deliveryId;
     private double priceDiscounted;
+    private List<OrderItem> orderItems;//list of items in the order
+
+    //this is ok
+    //getters and setters for an order
 
     public int getOrderId() {
         return orderId;
@@ -18,6 +24,14 @@ public class Order {
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
     public int getCustomerId() {
@@ -44,11 +58,11 @@ public class Order {
         this.status = status;
     }
 
-    public Timestamp getEstimatedDeliveryTime() {
+    public int getEstimatedDeliveryTime() {
         return estimatedDeliveryTime;
     }
 
-    public void setEstimatedDeliveryTime(Timestamp estimatedDeliveryTime) {
+    public void setEstimatedDeliveryTime(int estimatedDeliveryTime) {
         this.estimatedDeliveryTime = estimatedDeliveryTime;
     }
 

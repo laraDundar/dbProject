@@ -3,9 +3,10 @@ package pizzaSoftware;
 public class DeliveryPerson {
     private int deliveryPersonId;
     private String name;
-    private String phoneNumber;
-    private String email;
+    private boolean availabilityStatus;// a delivery person can be available (1) or not (0)
 
+    //getters and setters for delivery person
+    
     public int getDeliveryPersonId() {
         return deliveryPersonId;
     }
@@ -22,19 +23,11 @@ public class DeliveryPerson {
         this.name = name;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public void setAvailabilityStatus (boolean availabilityStatus){
+        this.availabilityStatus = availabilityStatus;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public boolean getAvailabilityStatus (){
+        return availabilityStatus;
     }
 }
