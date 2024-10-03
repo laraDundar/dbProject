@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -95,7 +96,7 @@ public class Main {
         customer.setUsername("john_doe");
         
         String password = "password123";
-        
+        /* 
         System.out.println("Registering customer...");
         loginManager.registerCustomer(customer, password);
 
@@ -107,9 +108,60 @@ public class Main {
         // Step 3: Test incorrect login
         System.out.println("Logging in with incorrect password...");
         boolean loginFail = loginManager.login("john_doe", "wrongpassword");
-        System.out.println("Login successful with wrong password: " + loginFail); // Expected output: false
-}
+        System.out.println("Login successful with wrong password: " + loginFail); // Expected output: false*/
+
+        // Sample customer registration and login
+      
+        
+       
+            
+            // Create a list of pizza IDs to order
+            List<Integer> pizzaIds = new ArrayList<>();
+            pizzaIds.add(1); // Assuming pizza ID 1 exists
+            pizzaIds.add(2); // Assuming pizza ID 2 exists
+            
+            // Create a list of drink IDs to order
+            List<Integer> drinkIds = new ArrayList<>();
+            drinkIds.add(1); // Assuming drink ID 1 exists
+            
+            // No desserts in this order
+            List<Integer> dessertIds = new ArrayList<>();
+            
+            // Create an order
+            OrderService orderService = new OrderService();
+            String discountCode = "DISCOUNT10"; // Example discount code
+            
+            Order order = orderService.placeOrder(customer, pizzaIds, drinkIds, dessertIds, discountCode);
+            
+            // Print out order details
+            System.out.println("Order placed successfully! yey");
+            System.out.println("Total Price yey: " + order.getPrice());
+            System.out.println("Estimated Preparation Time yey: " + order.getEstimatedDeliveryTime() + " minutes");
+
+            // Attempt to cancel the order
+        int orderIdToCancel = order.getOrderId(); // Assuming Order class has a method to get order ID
+        boolean isCancelled = orderService.cancelOrder(orderIdToCancel);
+
+        // Print cancellation result
+        if (isCancelled) {
+            System.out.println("Order cancelled successfully.");
+        } else {
+            System.out.println("Failed to cancel the order or cancellation period has expired.");
+        }
+
+         // For testing: Simulate a specific order ID directly (for ID 26)
+         int specificOrderIdToCancel = 26; // The specific order ID you want to cancel
+         boolean specificIsCancelled = orderService.cancelOrder(specificOrderIdToCancel);
+ 
+         if (specificIsCancelled) {
+             System.out.println("Specific order with ID 26 cancelled successfully.");
+         } else {
+             System.out.println("Failed to cancel the specific order with ID 26.");
+         }
+       
+    
     }
+}
 
         
     

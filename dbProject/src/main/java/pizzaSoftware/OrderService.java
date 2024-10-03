@@ -154,8 +154,21 @@ public class OrderService {
         System.out.println("Order Confirmation: ");
         System.out.println("Customer: " + customer.getFirstName() + " " + customer.getLastName());
         System.out.println("Order Total: " + totalPrice);
-        System.out.println("Estimated Delivery Time: 30 minutes");
+        // Estimate the preparation time based on the number of pizzas
+    int estimatedPreparationTime = estimatePreparationTime(pizzaCount);
+    
+    // Print the estimated preparation time
+    System.out.println("Estimated Preparation Time: " + estimatedPreparationTime + " minutes");
         return order;
+    }
+    public int estimatePreparationTime(int pizzaCount) {
+        int baseTime = 5; // Base time for cancellation window
+        int timePerPizza = 5; // Time added per pizza
+        
+        // Calculate total preparation time
+        int totalPreparationTime = baseTime + (pizzaCount * timePerPizza);
+        
+        return totalPreparationTime;
     }
 
    public void saveOrderToDatabase(Order order) {
@@ -202,6 +215,44 @@ private void saveOrderItems(Connection conn, int orderId, List<OrderItem> orderI
             itemStmt.addBatch(); // Add to batch
         }
         itemStmt.executeBatch(); // Execute all inserts in one go
+    }
+}
+
+// New method for cancelling an order
+public boolean cancelOrder(int orderId) {
+    try (Connection conn = menuService.getdbConnector().connect()) {
+        // Fetch the order to check the order timestamp
+        String orderQuery = "SELECT order_timestamp FROM orders WHERE order_id = ?";
+        try (PreparedStatement orderStmt = conn.prepareStatement(orderQuery)) {
+            orderStmt.setInt(1, orderId);
+            ResultSet rs = orderStmt.executeQuery();
+            if (rs.next()) {
+                Timestamp orderTimestamp = rs.getTimestamp("order_timestamp");
+                LocalDateTime orderDateTime = orderTimestamp.toLocalDateTime();
+                LocalDateTime currentDateTime = LocalDateTime.now();
+
+                // Check if the order is within the 5-minute cancellation window
+                if (java.time.Duration.between(orderDateTime, currentDateTime).toMinutes() <= 5) {
+                    // Proceed to cancel the order
+                    String cancelQuery = "UPDATE orders SET status = ? WHERE order_id = ?";
+                    try (PreparedStatement cancelStmt = conn.prepareStatement(cancelQuery)) {
+                        cancelStmt.setString(1, "Cancelled");
+                        cancelStmt.setInt(2, orderId);
+                        int rowsUpdated = cancelStmt.executeUpdate();
+                        return rowsUpdated > 0; // Return true if the order was cancelled
+                    }
+                } else {
+                    System.out.println("Cancellation period has expired for order ID: " + orderId);
+                    return false; // Cancellation period has expired
+                }
+            } else {
+                System.out.println("Order not found for order ID: " + orderId);
+                return false; // Order not found
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false; // Return false on SQL error
     }
 }
 /* 
