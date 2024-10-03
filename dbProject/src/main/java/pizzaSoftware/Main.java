@@ -70,7 +70,7 @@ public class Main {
         System.out.println("Failed to place the order.");
     }*/
 
-    int pizzaId = 1; // ID of the pizza you want to test
+    /*int pizzaId = 1; // ID of the pizza you want to test
 
         // Test the method to get ingredients for a pizza by pizzaId
         List<PizzaIngredient> ingredients = PizzaIngredient.getIngredientsByPizzaId(pizzaId);
@@ -86,7 +86,28 @@ public class Main {
                                    " | Vegetarian: " + ing.isVegetarian() +
                                    " | Vegan: " + ing.isVegan());
             }
-        }
+        }*/
+
+        LoginManager loginManager = new LoginManager();
+
+        // Step 1: Register a new customer
+        Customer customer = new Customer();
+        customer.setUsername("john_doe");
+        
+        String password = "password123";
+        
+        System.out.println("Registering customer...");
+        loginManager.registerCustomer(customer, password);
+
+        // Step 2: Test correct login
+        System.out.println("Logging in with correct password...");
+        boolean loginSuccess = loginManager.login("john_doe", "password123");
+        System.out.println("Login successful: " + loginSuccess); // Expected output: true
+
+        // Step 3: Test incorrect login
+        System.out.println("Logging in with incorrect password...");
+        boolean loginFail = loginManager.login("john_doe", "wrongpassword");
+        System.out.println("Login successful with wrong password: " + loginFail); // Expected output: false
 }
     }
 

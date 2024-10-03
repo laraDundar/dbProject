@@ -3,33 +3,59 @@ package pizzaSoftware;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class LoginManager {
     private static final String PEPPER = "SuperSecretPepper"; // Static pepper used in hashing
-    private Map<String, String> saltStorage = new HashMap<>(); // Store salts for each username
-    private Map<String, String> passwordStorage = new HashMap<>(); // Store hashed passwords
-    
+    private dbConnector dbConnection;
+
+    public LoginManager() {
+        dbConnection = new dbConnector();
+    }
 
     // Method to register a new customer
     public void registerCustomer(Customer customer, String password) {
         String salt = generateSalt();
-        saltStorage.put(customer.getUsername(), salt); // Store the salt for this user
         String passwordHash = hashPassword(password, salt, PEPPER);
-        passwordStorage.put(customer.getUsername(), passwordHash); // Store the hashed password
-        customer.setPasswordHash(passwordHash); // Set the hashed password in the customer object
+
+        try (Connection connection = dbConnection.connect()) {
+            String query = "INSERT INTO Customers (username, password_hash, salt) VALUES (?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, customer.getUsername());
+            statement.setString(2, passwordHash);
+            statement.setString(3, salt);
+            statement.executeUpdate();
+
+            customer.setPasswordHash(passwordHash); // Set the hashed password in the customer object
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     // Method to log in a customer
     public boolean login(String username, String password) {
-        if (!passwordStorage.containsKey(username)) {
-            return false; // User doesn't exist
+        try (Connection connection = dbConnection.connect()) {
+            String query = "SELECT password_hash, salt FROM Customers WHERE username = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String storedHash = resultSet.getString("password_hash");
+                String storedSalt = resultSet.getString("salt");
+                String inputHash = hashPassword(password, storedSalt, PEPPER);
+
+                return storedHash.equals(inputHash); // Return true if hashes match
+            } else {
+                return false; // User doesn't exist
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-        String storedSalt = saltStorage.get(username);
-        String storedHash = passwordStorage.get(username);
-        String inputHash = hashPassword(password, storedSalt, PEPPER);
-        return storedHash.equals(inputHash); // Return true if hashes match
     }
 
     // Hash the password with salt and pepper
