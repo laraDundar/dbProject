@@ -5,6 +5,26 @@ public class DiscountCode {
     private String code;
     private double discountAmount;
     private boolean isActive;
+    private int customerId;
+    private int orderId;
+
+    //getters and setters for discount code
+
+    public int getCustomerId(){
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId){
+        this.customerId = customerId;
+    }
+
+    public int getOrderId(){
+        return orderId;
+    }
+
+    public void setOrderId(int orderId){
+        this.orderId = orderId;
+    }
 
     public int getDiscountCodeId() {
         return discountCodeId;

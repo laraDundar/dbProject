@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 
+//this is ok 
 public class Customer {
     private int customerId;
     private String firstName;
@@ -16,20 +17,37 @@ public class Customer {
     private String username;
     private LocalDate birthdate;
     private String passwordHash;
+    private String zipCode;
+    private String discountCode;
 
-    private int pizzaOrderCount;//number of ordered pizzas
     
-    public Customer (String email, String username, String firstName, String lastName, String gender, LocalDate birthdate, String phoneNumber, String address){
+    
+    //* Customer constructor with all the necessar info */
+    public Customer (String email, String username, String firstName, String lastName, String gender, LocalDate birthdate, String phoneNumber, String address, String zipCode){
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.birthdate = birthdate;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.pizzaOrderCount = 0;
         this.email = email;
         this.username = username;
+        this.zipCode = zipCode;
     }
+
+
+    /** gettter for discountCode 
+    * @return discountCode 
+    */
+    public String getDiscountCode() {
+        return discountCode;
+    }
+
+    /** setter for discountCode */
+    public void setDiscountCode(String discountCode) {
+        this.discountCode = discountCode;
+    }
+
 
     /**
      * check if today it is the customer's birthday
@@ -39,6 +57,8 @@ public class Customer {
         LocalDate today = LocalDate.now();
         return today.getDayOfMonth() == birthdate.getDayOfMonth() && today.getMonth() == birthdate.getMonth();
     }
+
+    //all only getters and seeters for customer's attributes
 
     public void setPasswordHash (String passwordHash){
         this.passwordHash = passwordHash;
@@ -50,6 +70,10 @@ public class Customer {
 
     public String getUsername(){
         return username;
+    }
+
+    public LocalDate getBirthdate(){
+        return birthdate;
     }
 
 
@@ -100,5 +124,12 @@ public class Customer {
     public void setAddress(String address) {
         this.address = address;
     }
+
+
+    public void setUsername(String string) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setUsername'");
+    }
+    
 
 }

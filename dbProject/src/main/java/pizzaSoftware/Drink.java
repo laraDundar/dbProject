@@ -5,6 +5,18 @@ public class Drink {
     private String drinkName;
     private double price;
 
+    //this is ok
+    /** 
+     * constructor for Drink
+     */
+    public Drink(int drinkId, String name, double price) {
+        this.drinkId = drinkId;
+        this.drinkName = name;
+        this.price = price;
+    }
+
+    //getters and setters for drink
+
     public int getDrinkId() {
         return drinkId;
     }

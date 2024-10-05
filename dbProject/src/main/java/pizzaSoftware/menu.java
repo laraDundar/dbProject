@@ -1,4 +1,4 @@
-package pizzaSoftware;
+/*package pizzaSoftware;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -7,53 +7,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
-
 public class menu {
 
     private Connection connection;
 
     public menu(Connection connection) {
         this.connection = connection;
-    }
-
-    @FXML
-    private Label pizzaMenuLabel;
-
-    @FXML
-    private TableView<?> dessertsMenuTable;
-
-    @FXML
-    private Button cartButton;
-
-    @FXML
-    private Label drinksMenuLabel;
-
-    @FXML
-    private TableView<?> pizzaMenuTable;
-
-    @FXML
-    private TableView<?> drinksMenuTable;
-
-    @FXML
-    private Label dessertsMenuLabel;
-    
-    @FXML
-    private Button orderButton;
-
-    @FXML
-    void orderAction(ActionEvent event) {
-
-    }
-
-
-     @FXML
-    void cartButtonAction(ActionEvent event) {
-
     }
 
     public List<Pizza> getPizzas() {
@@ -64,11 +23,11 @@ public class menu {
 
             while (resultSet.next()) {
                 Pizza pizza = new Pizza();
-                pizza.setPizzaId(resultSet.getInt("pizza_id"));
-                pizza.setPizzaName(resultSet.getString("pizza_name"));
-                pizza.setPrice(resultSet.getDouble("pizza_price"));
-                pizza.setVegetarian(resultSet.getBoolean("is_vegetarian"));
-                pizza.setVegan(resultSet.getBoolean("is_vegan"));
+                pizza.setPizzaId(resultSet.getInt("pizzaId"));
+                pizza.setPizzaName(resultSet.getString("pizzaName"));
+                pizza.setPrice(resultSet.getDouble("price"));
+                pizza.setVegetarian(resultSet.getBoolean("isVegetarian"));
+                pizza.setVegan(resultSet.getBoolean("isVegan"));
                 
                 pizzas.add(pizza);
             }
@@ -88,8 +47,8 @@ public class menu {
 
             while (resultSet.next()) {
                 Drink drink = new Drink();
-                drink.setDrinkId(resultSet.getInt("drink_id"));
-                drink.setDrinkName(resultSet.getString("name"));
+                drink.setDrinkId(resultSet.getInt("drinkId"));
+                drink.setDrinkName(resultSet.getString("drinkName"));
                 drink.setPrice(resultSet.getDouble("price"));
                 
                 drinks.add(drink);
@@ -110,8 +69,8 @@ public class menu {
 
             while (resultSet.next()) {
                 Dessert dessert = new Dessert();
-                dessert.setDessertId(resultSet.getInt("dessert_id"));
-                dessert.setDessertName(resultSet.getString("name"));
+                dessert.setDessertId(resultSet.getInt("dessertId"));
+                dessert.setDessertName(resultSet.getString("dessertName"));
                 dessert.setPrice(resultSet.getDouble("price"));
                 
                 desserts.add(dessert);
@@ -169,4 +128,4 @@ public class menu {
         }
     }
     
-}
+}*/
