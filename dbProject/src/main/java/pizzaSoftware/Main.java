@@ -131,9 +131,8 @@ public class Main {
             
             // Create an order
             OrderService orderService = new OrderService();
-            String discountCode = "DISCOUNT10"; // Example discount code
             
-            Order order = orderService.placeOrder(customer, pizzaIds, drinkIds, dessertIds, discountCode);
+            Order order = orderService.placeOrder(customer, pizzaIds, drinkIds, dessertIds);
             
             // Print out order details
             /*System.out.println("Order placed successfully! yey");

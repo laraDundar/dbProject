@@ -1,33 +1,44 @@
 package pizzaSoftware;
 
+import java.time.LocalDateTime;
+
 public class DeliveryPerson {
     private int deliveryPersonId;
     private String name;
-    private boolean availabilityStatus;// a delivery person can be available (1) or not (0)
+    private String areaId; // Area they are assigned to
+    private boolean availabilityStatus; // true if available, false otherwise
+    private LocalDateTime unavailableUntil; // Track when they become available again
 
-    //getters and setters for delivery person
-    
-    public int getDeliveryPersonId() {
-        return deliveryPersonId;
+    public DeliveryPerson(int deliveryPersonId, String name, String areaId) {
+        this.deliveryPersonId = deliveryPersonId;
+        this.name = name;
+        this.areaId = areaId;
+        this.availabilityStatus = true; // Initially available
     }
 
-    public void setDeliveryPersonId(int deliveryPersonId) {
-        this.deliveryPersonId = deliveryPersonId;
+    public void setUnavailable(int minutes) {
+        this.availabilityStatus = false;
+        this.unavailableUntil = LocalDateTime.now().plusMinutes(minutes);
+    }
+
+    public boolean isAvailable() {
+        // Check if the delivery person is currently available
+        if (!availabilityStatus && LocalDateTime.now().isAfter(unavailableUntil)) {
+            availabilityStatus = true; // They are now available
+        }
+        return availabilityStatus;
+    }
+
+    // Getters
+    public int getDeliveryPersonId() {
+        return deliveryPersonId;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAvailabilityStatus (boolean availabilityStatus){
-        this.availabilityStatus = availabilityStatus;
-    }
-
-    public boolean getAvailabilityStatus (){
-        return availabilityStatus;
+    public String getAreaId() {
+        return areaId;
     }
 }

@@ -22,7 +22,7 @@ public class OrderService {
         menuService = new MenuService();
     }
 
-    public Order placeOrder(Customer customer, List<Integer> pizzaIds, List<Integer> drinkIds, List<Integer> dessertIds, String discountCode) {
+    public Order placeOrder(Customer customer, List<Integer> pizzaIds, List<Integer> drinkIds, List<Integer> dessertIds) {
         //make sure that an order includes at leat a pizza
         if (pizzaIds.isEmpty()) {
             throw new IllegalArgumentException("An order must include at least one pizza.");
@@ -122,37 +122,10 @@ public class OrderService {
         finalPrice = discountManager.applyBirthdayOffer(customer, totalPrice, orderItems, menuService);
         order.setPriceDiscounted(finalPrice);
        
-       /*  //Get DeliveryPerson from Delivery via delivery_id
-        Delivery delivery = Delivery.getDeliveryId(deliveryId);
-        if (delivery != null) {
-            int deliveryPersonId = delivery.getDeliveryPersonId(); // Fetch delivery_person_id
-
-        // Get DeliveryPersonArea using delivery_person_id
-        DeliveryPersonArea deliveryPersonArea = DeliveryPersonArea.getByDeliveryPersonId(deliveryPersonId);
-        if (deliveryPersonArea != null) {
-            int areaId = deliveryPersonArea.getAreaId(); // Fetch area_id
-
-        // Get DeliveryArea using area_id
-        DeliveryArea deliveryArea = DeliveryArea.getDeliveryAreaById(areaId);
-        if (deliveryArea != null) {
-            int estimatedTime = estimateDeliveryTime(pizzaCount, deliveryArea.getDistance()); // Estimate time based on distance
-            order.setEstimatedDeliveryTime(estimatedTime); // Set the estimated time on the order
-        } else {
-            System.out.println("Delivery area not found for areaId: " + areaId);
-        }
-    } else {
-        System.out.println("Delivery person area not found for deliveryPersonId: " + deliveryPersonId);
-    }
-} else {
-    System.out.println("Delivery not found for deliveryId: " + deliveryId);
-}
-
-        int estimatedTime = estimateDeliveryTime(pizzaCount, deliveryArea.getDistance());
-        order.setEstimatedDeliveryTime(estimatedTime);
-        
         // Save order to the database (this requires implementation of the database logic)
         saveOrderToDatabase(order);
-*/
+        String orderZipCode = customer.getZipCode();
+
          //Send confirmation to the customer (simple print for now)
         System.out.println("Order Confirmation: ");
         System.out.println("Customer: " + customer.getFirstName() + " " + customer.getLastName());
@@ -160,6 +133,11 @@ public class OrderService {
         System.out.println("Discounted total " + finalPrice);
         // Estimate the preparation time based on the number of pizzas
         int estimatedPreparationTime = estimatePreparationTime(pizzaCount);
+        order.setEstimatedPreparationTime(estimatedPreparationTime);
+
+        DeliveryService deliveryService = new DeliveryService(orderZipCode);
+        deliveryService.placeOrder(order);
+        //System.out.println("Delivery time: " + deliveryService.estimateDeliveryTime());
     
         // Print the estimated preparation time
         System.out.println("Estimated Preparation Time: " + estimatedPreparationTime + " minutes");
@@ -185,7 +163,7 @@ public class OrderService {
         orderStmt.setInt(1, order.getCustomerId()); // Assuming you have a method to get customer ID
         orderStmt.setTimestamp(2, order.getOrderTimestamp()); // Assuming your order class has this method
         orderStmt.setString(3, order.getStatus()); // Assuming you have a status for the order
-        orderStmt.setInt(4, order.getEstimatedDeliveryTime()); // Assuming you have a method for this
+        //orderStmt.setInt(4, order.getEstimatedDeliveryTime()); // Assuming you have a method for this
         orderStmt.setDouble(5, order.getPrice()); // Assuming getPrice() returns BigDecimal
         orderStmt.setDouble(6, order.getPriceDiscounted()); // Assuming getPriceDiscounted() returns BigDecimal
         

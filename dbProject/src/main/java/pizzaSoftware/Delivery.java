@@ -1,67 +1,34 @@
 package pizzaSoftware;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class Delivery {
-    private int deliveryId;
-    private int deliveryPersonId;
+    private String zipCode;
     private Timestamp startTime;
-    private Timestamp endTime;
-    private String status;
-    private DeliveryPerson deliveryPerson;
-    private DeliveryArea deliveryArea;
-    private DeliveryPersonArea deliveryPersonArea;
-
-   // Constructor for Delivery
-   public Delivery(int deliveryPersonId, DeliveryPerson deliveryPersonService, DeliveryArea deliveryAreaService, DeliveryPersonArea deliveryPersonAreaService) {
-    this.deliveryPersonId = deliveryPersonId;
-    this.deliveryPerson = deliveryPersonService;
-    this.deliveryArea = deliveryAreaService;
-    this.deliveryPersonArea = deliveryPersonAreaService;
+    private int orderId; // Assuming this refers to the order being delivered
+    private String status; // e.g., "Pending", "In Transit", "Delivered"
     
-    // Retrieve the delivery area for the given delivery person
-    //this.deliveryArea = getDeliveryAreaByDeliveryPersonId(deliveryPersonId);
-}
-
-    // Method to get the Delivery Area linked to the delivery person
-    /*private int getDeliveryAreaByDeliveryPersonId(int deliveryPersonId) {
-        // Retrieve the areas assigned to the delivery person
-        DeliveryPersonArea deliveryPersonArea = deliveryPersonArea.getAreasByDeliveryPersonId(deliveryPersonId).get(0); // Assume only one area is linked
-        return deliveryPersonArea.getAreaId();
-    }
-*/
-    // only getters and setters for attributes of Delivery
-    
-    public int getDeliveryId() {
-        return deliveryId;
+    public Delivery(String zipCode, Order order) {
+        this.zipCode = zipCode;
+        this.orderId = order.getOrderId();
+        LocalDateTime currentTime = LocalDateTime.now().minusMinutes(5); // Subtract 5 minutes
+        this.startTime = Timestamp.valueOf(currentTime.plusMinutes(order.getEstimatedPreparationTime())); // Add estimated preparation time
+        
+        this.status = "Pending"; // Initial status
     }
 
-    public void setDeliveryId(int deliveryId) {
-        this.deliveryId = deliveryId;
-    }
-
-    public int getDeliveryPersonId() {
-        return deliveryPersonId;
-    }
-
-    public void setDeliveryPersonId(int deliveryPersonId) {
-        this.deliveryPersonId = deliveryPersonId;
+    // Getters and Setters
+    public String getZipCode() {
+        return zipCode;
     }
 
     public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Timestamp startTime) {
-        this.startTime = startTime;
-    }
-
-    public Timestamp getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Timestamp endTime) {
-        this.endTime = endTime;
+    public int getOrderId() {
+        return orderId;
     }
 
     public String getStatus() {

@@ -131,4 +131,8 @@ public class Customer {
         this.address = address;
     } 
 
+    public String getZipCode(){
+        return zipCode;
+    }
+
 }

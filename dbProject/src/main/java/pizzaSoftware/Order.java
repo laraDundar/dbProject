@@ -9,7 +9,7 @@ public class Order {
     private int customerId;
     private Timestamp orderTimestamp;
     private String status;
-    private int estimatedDeliveryTime;
+    private int estimatedPreparationTime;
     private double price;
     private int deliveryId;
     private double priceDiscounted;
@@ -28,6 +28,14 @@ public class Order {
 
     public List<OrderItem> getOrderItems() {
         return orderItems;
+    }
+
+    public void setEstimatedPreparationTime(int estimatedPreparationTime){
+        this.estimatedPreparationTime = estimatedPreparationTime;
+    }
+
+    public int getEstimatedPreparationTime(){
+        return estimatedPreparationTime;
     }
 
     public void setOrderItems(List<OrderItem> orderItems) {
@@ -58,13 +66,7 @@ public class Order {
         this.status = status;
     }
 
-    public int getEstimatedDeliveryTime() {
-        return estimatedDeliveryTime;
-    }
-
-    public void setEstimatedDeliveryTime(int estimatedDeliveryTime) {
-        this.estimatedDeliveryTime = estimatedDeliveryTime;
-    }
+   
 
     public double getPrice() {
         return price;

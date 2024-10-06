@@ -1,44 +1,26 @@
 package pizzaSoftware;
 
 public class DeliveryArea {
-    private int areaId;
-    private String zipCode;
-    private int distance;
+    private String areaId; // Unique identifier for the area
+    private String zipCode; // Postal code for this area
+    private int distance; // Distance from the restaurant (1 = close, 2 = far, 3 = very far)
 
-    /**
-     * constructor for Delivery area 
-     * this class just keeps track of the areas where a delivery can be done and devides the city 
-     * in 3 categories based on the distance of delivery - close, far, very far = 1, 2, or 3
-     * @param areaId
-     * @param zipCode
-     * @param distance
-     */
-    
-    public DeliveryArea(int areaId, String zipCode, int distance){
+    public DeliveryArea(String areaId, String zipCode, int distance) {
         this.areaId = areaId;
         this.zipCode = zipCode;
         this.distance = distance;
     }
 
-    //all getters and setters for Delivery area
-
-    public int getDistance(){
-        return distance;
-    }
-
-    public int getAreaId() {
+    // Getters
+    public String getAreaId() {
         return areaId;
-    }
-
-    public void setAreaId(int areaId) {
-        this.areaId = areaId;
     }
 
     public String getZipCode() {
         return zipCode;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public int getDistance() {
+        return distance;
     }
 }

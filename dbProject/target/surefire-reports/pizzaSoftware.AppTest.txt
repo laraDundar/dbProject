@@ -1,12 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: pizzaSoftware.AppTest
 -------------------------------------------------------------------------------
-<<<<<<< HEAD
-<<<<<<< HEAD
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.050 s -- in pizzaSoftware.AppTest
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 s -- in pizzaSoftware.AppTest
->>>>>>> 49e94c9b3003727752cbdbd08a30d15e3beac6d7
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.107 s -- in pizzaSoftware.AppTest
->>>>>>> c80a5f384a3601864623cbc28181c6dd74e86877
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.078 s -- in pizzaSoftware.AppTest
