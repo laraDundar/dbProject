@@ -80,4 +80,49 @@ public class MenuService {
         }
         return null;
     }
+
+    public List<Pizza> getPizzas() {
+        List<Pizza> pizzas = new ArrayList<>();
+        String query = "SELECT * FROM Pizzas";
+        try (Connection conn = dbConnector.connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Pizza pizza = new Pizza(rs.getInt("pizza_id"), rs.getString("pizza_name"));
+                pizzas.add(pizza);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pizzas;
+    }
+
+    public List<Drink> getDrinks() {
+        List<Drink> drinks = new ArrayList<>();
+        String query = "SELECT * FROM Drinks";
+        try (Connection conn = dbConnector.connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Drink drink = new Drink(rs.getInt("drink_id"), rs.getString("name"), rs.getDouble("price"));
+                drinks.add(drink);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return drinks;
+    }
+
+    public List<Dessert> getDesserts() {
+        List<Dessert> desserts = new ArrayList<>();
+        String query = "SELECT * FROM Desserts";
+        try (Connection conn = dbConnector.connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Dessert dessert = new Dessert(rs.getInt("dessert_id"), rs.getString("name"), rs.getDouble("price"));
+                desserts.add(dessert);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return desserts;
+    }
 }
