@@ -90,17 +90,17 @@ public class Main {
             }
         }*/
 
-        //LoginManager loginManager = new LoginManager();
+        LoginManager loginManager = new LoginManager();
 
-        // Step 1: Register a new customer
-        //Customer customer = new Customer("ghgh@hjghj", "john_doe", "John", "Doe", "male", LocalDate.of(1997, 10, 06), "564646", "Nido ghgh", "1000AB");
+        //Step 1: Register a new customer
+        Customer customer = new Customer("ghgh@hjghj", "TESTTEST", "John", "male", LocalDate.of(1997, 10, 06), "564646", "Nido ghgh", "1000AB");
         //customer.setUsername("john_doe");
         //customer.setPizzaOrderCount(11);
         //customer.setBirthdate(LocalDate.of(2005, 10, 06));
         
         
-        //String password = "password123";
-        /* 
+        String password = "password123";
+        
         System.out.println("Registering customer...");
         loginManager.registerCustomer(customer, password);
 
@@ -112,7 +112,8 @@ public class Main {
         // Step 3: Test incorrect login
         System.out.println("Logging in with incorrect password...");
         boolean loginFail = loginManager.login("john_doe", "wrongpassword");
-        System.out.println("Login successful with wrong password: " + loginFail); // Expected output: false*/
+        System.out.println("Login successful with wrong password: " + loginFail); // Expected output: false
+        System.out.println("!!!!customer id" + customer.getCustomerId());
 
         // Sample customer registration and login
       
@@ -120,7 +121,7 @@ public class Main {
        
             
             // Create a list of pizza IDs to order
-            /*List<Integer> pizzaIds = new ArrayList<>();
+            List<Integer> pizzaIds = new ArrayList<>();
             pizzaIds.add(1); // Assuming pizza ID 1 exists
             pizzaIds.add(2); // Assuming pizza ID 2 exists
             
@@ -134,23 +135,23 @@ public class Main {
             // Create an order
             OrderService orderService = new OrderService();
             
-            Order order = orderService.placeOrder(customer, pizzaIds, drinkIds, dessertIds);*/
+            Order order = orderService.placeOrder(customer, pizzaIds, drinkIds, dessertIds);
             
             // Print out order details
-            /*System.out.println("Order placed successfully! yey");
+            System.out.println("Order placed successfully! yey");
             System.out.println("Total Price yey: " + order.getPrice());
-            System.out.println("Estimated Preparation Time yey: " + order.getEstimatedDeliveryTime() + " minutes");*/
+            System.out.println("Estimated Preparation Time yey: " + order.getEstimatedPreparationTime() + " minutes");
 
-            // Attempt to cancel the order
-        //int orderIdToCancel = order.getOrderId(); // Assuming Order class has a method to get order ID
-       // boolean isCancelled = orderService.cancelOrder(orderIdToCancel);
+            //Attempt to cancel the order
+    int orderIdToCancel = order.getOrderId(); // Assuming Order class has a method to get order ID
+       boolean isCancelled = orderService.cancelOrder(orderIdToCancel);
 
         // Print cancellation result
-        /*if (isCancelled) {
+        if (isCancelled) {
             System.out.println("Order cancelled successfully.");
         } else {
             System.out.println("Failed to cancel the order or cancellation period has expired.");
-        }*/
+        }
 
          // For testing: Simulate a specific order ID directly (for ID 26)
          /*int specificOrderIdToCancel = 26; // The specific order ID you want to cancel
@@ -165,12 +166,12 @@ public class Main {
     
 
         // Create the necessary objects for testing
-        MenuService menuService = new MenuService();
-        OrderService orderService = new OrderService();
+        //MenuService menuService = new MenuService();
+       /*  OrderService orderService = new OrderService();
 
         // Create a sample customer (you can adjust the details)
-        Customer customer = new Customer("john@doe.com", "johndoe", "John", "Doe", "M", LocalDate.of(1990, 1, 1),
-                                         "0612345678", "123 Main St", "1000AB");
+        //Customer customer = new Customer("john@doe.com", "mytest", "John", "Doe", "M", LocalDate.of(1990, 1, 1),
+        //                                 "0612345678", "123 Main St", "1000AB");
 
         // Create some pizza, drink, and dessert IDs for the order
         List<Integer> pizzaIds = new ArrayList<>();
@@ -182,29 +183,51 @@ public class Main {
         List<Integer> dessertIds = new ArrayList<>();
         dessertIds.add(1); // Add the dessert IDs that exist in your menu
 
-        // Place the order using the OrderService
-        Order order = orderService.placeOrder(customer, pizzaIds, drinkIds, dessertIds);
+       // Place the order using the OrderService
+       Order order = orderService.placeOrder(customer, pizzaIds, drinkIds, dessertIds);
 
-        // Output the estimated preparation time and delivery time
-        int estimatedPrepTime = orderService.estimatePreparationTime(pizzaIds.size());
-        System.out.println("Estimated Preparation Time: " + estimatedPrepTime + " minutes");
+       // Output the estimated preparation time and delivery time
+       int estimatedPrepTime = orderService.estimatePreparationTime(pizzaIds.size());
+       System.out.println("Estimated Preparation Time: " + estimatedPrepTime + " minutes");
 
-        // Simulate the delivery area (assuming the delivery person is ID 1)
-        DeliveryService deliveryService = new DeliveryService(customer.getZipCode());
-        
-        // Manually setting up delivery areas and distance (assuming deliveryPersonId = 1)
-        DeliveryArea deliveryArea = new DeliveryArea(1, customer.getZipCode(), 2); // Assuming distance 2 (far)
-        //DeliveryPerson deliveryPerson = new DeliveryPerson(1, "Max", 1);
-        //deliveryService.assignDeliveryAreaToPerson(1, deliveryArea); // Assign the area to delivery person 1
-        
-        // Estimate delivery time for the order based on distance
-        int estimatedDeliveryTime = deliveryService.estimateDeliveryTime(deliveryArea.getDistance());
-        System.out.println("Estimated Delivery Time: " + estimatedDeliveryTime + " minutes");
+       // Simulate the delivery service
+       DeliveryService deliveryService = new DeliveryService(customer.getZipCode());
 
-        // Combine preparation and delivery time for total estimate
-        int totalEstimateTime = estimatedPrepTime + estimatedDeliveryTime;
-        System.out.println("Total Estimated Time (Preparation + Delivery): " + totalEstimateTime + " minutes");
-    }
+       // Test Case 1: Delivery Person is Available
+       System.out.println("\n*** Test Case 1: Delivery Person is Available ***");
+
+       // Setup an available delivery person
+       DeliveryPerson deliveryPersonAvailable = new DeliveryPerson (6, "Max", 1); // ID 1, covers zip code "1000AB"
+       deliveryService.addDeliveryPerson(deliveryPersonAvailable); // Add this delivery person to the system
+
+       // Manually setting up delivery areas and distance
+       DeliveryArea deliveryArea = new DeliveryArea(1, customer.getZipCode(), 2); // Distance = 2 (far)
+       
+       // Estimate delivery time for the order based on distance
+       int estimatedDeliveryTime = deliveryService.estimateDeliveryTime(deliveryArea.getDistance());
+       System.out.println("Estimated Delivery Time: " + estimatedDeliveryTime + " minutes");
+
+       // Combine preparation and delivery time for total estimate
+       int totalEstimateTime = estimatedPrepTime + estimatedDeliveryTime;
+       System.out.println("Total Estimated Time (Preparation + Delivery): " + totalEstimateTime + " minutes");
+
+       // Assign delivery person based on zip code and availability
+       deliveryService.assignDeliveryPersonToBatch(customer.getZipCode());
+
+       // Test Case 2: No Delivery Person Available
+       System.out.println("\n*** Test Case 2: No Delivery Person is Available ***");
+
+       // Remove the available delivery person to simulate no availability
+       deliveryService.clearDeliveryPeople(); // Clear all delivery people
+
+       // Estimate delivery time again (expecting no available person)
+       DeliveryBatch newBatch = deliveryService.findDeliveryBatch(order, customer.getZipCode());
+       if (newBatch.getDeliveryPerson() == null) {
+           System.out.println("No delivery person is available for zip code: " + customer.getZipCode());
+       } else {
+           System.out.println("Delivery person assigned: " + newBatch.getDeliveryPerson().getName());*/
+       //}
+   }
     }
 
         
