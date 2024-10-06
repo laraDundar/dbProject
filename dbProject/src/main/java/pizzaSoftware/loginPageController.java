@@ -11,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 
@@ -79,7 +81,7 @@ public class loginPageController {
 
     private void loadMainPage() {
         try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(new File("C:/MARIA/DATABASE PROJECT TOM PEPPELS/dbProject/dbProject/src/main/resources/mainPage.fxml").toURI().toURL());
         Parent mainPageRoot = loader.load();
 
         // Retrieve the controller
