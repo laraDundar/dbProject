@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzaSoftware.signUpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="735.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzaSoftware.signUpController">
    <children>
       <Label fx:id="signUpPageTitle" layoutX="48.0" layoutY="15.0" text="Create an Account">
          <font>
@@ -16,20 +16,22 @@
       <Label fx:id="signUpPasswordLabel" layoutX="10.0" layoutY="115.0" text="Password" />
       <TextField fx:id="newAccountUsernameTextField" layoutX="7.0" layoutY="75.0" onAction="#newAccountUsernameAction" />
       <TextField fx:id="newAccountPasswordTextField" layoutX="7.0" layoutY="140.0" onAction="#newAccountPasswordAction" />
-      <Button fx:id="signUpButton" layoutX="87.0" layoutY="637.0" mnemonicParsing="false" onAction="#signUpAction" text="Sign Up" />
-      <Label fx:id="signUpUsernameLabel1" layoutX="10.0" layoutY="180.0" text="Email" />
-      <TextField fx:id="newAccountPasswordTextField1" layoutX="7.0" layoutY="205.0" onAction="#newAccountPasswordAction" />
-      <Label fx:id="signUpUsernameLabel11" layoutX="10.0" layoutY="245.0" text="Name" />
-      <TextField fx:id="newAccountPasswordTextField11" layoutX="7.0" layoutY="270.0" onAction="#newAccountPasswordAction" />
-      <Label fx:id="signUpUsernameLabel111" layoutX="10.0" layoutY="310.0" text="Birthdate" />
-      <DatePicker layoutX="7.0" layoutY="335.0" />
-      <Label fx:id="signUpUsernameLabel2" layoutX="7.0" layoutY="380.0" text="Phone Number" />
-      <TextField fx:id="newAccountPasswordTextField2" layoutX="10.0" layoutY="405.0" onAction="#newAccountPasswordAction" />
-      <Label fx:id="signUpUsernameLabel21" layoutX="7.0" layoutY="445.0" text="Gender" />
-      <ComboBox layoutX="7.0" layoutY="470.0" prefWidth="150.0" />
-      <Label fx:id="signUpUsernameLabel211" layoutX="7.0" layoutY="510.0" text="Address" />
-      <TextField fx:id="newAccountPasswordTextField21" layoutX="7.0" layoutY="535.0" onAction="#newAccountPasswordAction" />
-      <Label fx:id="signUpUsernameLabel2111" layoutX="7.0" layoutY="575.0" text="Zip Code" />
-      <TextField fx:id="newAccountPasswordTextField211" layoutX="10.0" layoutY="600.0" onAction="#newAccountPasswordAction" />
+      <Button fx:id="signUpButton" layoutX="87.0" layoutY="697.0" mnemonicParsing="false" onAction="#signUpAction" text="Sign Up" />
+      <Label fx:id="signUpEmailLabel" layoutX="10.0" layoutY="180.0" text="Email" />
+      <TextField fx:id="newAccountEmailTextField" layoutX="7.0" layoutY="205.0" onAction="#newAccountEmailAction" />
+      <Label fx:id="signUpNameLabel" layoutX="10.0" layoutY="245.0" text="Name" />
+      <TextField fx:id="newAccountNameTextField" layoutX="7.0" layoutY="270.0" onAction="#newAccountNameAction" />
+      <Label fx:id="signUpBirthdateLabel" layoutX="10.0" layoutY="375.0" text="Birthdate" />
+      <DatePicker fx:id="newAccountBirthSelector" layoutX="7.0" layoutY="400.0" onAction="#newAccountBirthSelectorAction" />
+      <Label fx:id="signUpPhoneLabel" layoutX="7.0" layoutY="440.0" text="Phone Number" />
+      <TextField fx:id="newAccountPhoneTextField" layoutX="10.0" layoutY="465.0" onAction="#newAccountPhoneAction" />
+      <Label fx:id="signUpGenderLabel" layoutX="7.0" layoutY="505.0" text="Gender" />
+      <ComboBox fx:id="newAccountGenderComboBox" layoutX="7.0" layoutY="525.0" onAction="#newAccountGenderAction" prefWidth="150.0" />
+      <Label fx:id="signUpAddressLabel" layoutX="7.0" layoutY="565.0" text="Address" />
+      <TextField fx:id="newAccountAddressTextField" layoutX="7.0" layoutY="590.0" onAction="#newAccountAddressAction" />
+      <Label fx:id="signUpZipCodeLabel" layoutX="7.0" layoutY="630.0" text="Zip Code" />
+      <TextField fx:id="newAccountZipTextField" layoutX="10.0" layoutY="655.0" onAction="#newAccountZipAction" />
+      <Label fx:id="signUpSurnameLabel" layoutX="10.0" layoutY="310.0" text="Surname" />
+      <TextField fx:id="newAccountSurnameTextField" layoutX="7.0" layoutY="335.0" onAction="#newAccountSurnameAction" />
    </children>
 </AnchorPane>
