@@ -3,17 +3,23 @@ package pizzaSoftware;
 import java.sql.Connection;
 import java.util.List;
 import javafx.util.Duration;
+import java.io.IOException;
+import java.net.URL;
 
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 public class menu {
 
@@ -63,7 +69,45 @@ public class menu {
     void orderAction(ActionEvent event) {}
 
     @FXML
-    void cartButtonAction(ActionEvent event) {}
+    void cartButtonAction(ActionEvent event) {
+        try {
+            // Load the FXML file from the resources directory
+            URL resource = getClass().getResource("/cartPage.fxml"); // Use leading slash for root resources
+            System.out.println("Resource URL: " + resource); // Debugging: Print the resource URL
+            
+            if (resource == null) {
+                throw new IllegalArgumentException("FXML file not found!");
+            }
+    
+            FXMLLoader loader = new FXMLLoader(resource);
+            Parent cartPage = loader.load();
+    
+            // Get the current stage
+            Stage stage = (Stage) cartButton.getScene().getWindow();
+    
+            // Set the scene with the new cart page
+            stage.setScene(new Scene(cartPage));
+            stage.show();
+            
+            // Optionally, you can set the controller if you need to pass data
+            cartController controller = loader.getController();
+            //controller.initialize(); // Call any initialization methods if needed
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Could not load cart page");
+            alert.setContentText("Please check the FXML file or the path.");
+            alert.showAndWait();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Resource not found");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+    }
 
     @FXML
     public void initialize() {
