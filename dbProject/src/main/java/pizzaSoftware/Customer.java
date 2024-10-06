@@ -20,8 +20,9 @@ public class Customer {
     private String zipCode;
     private String discountCode;
 
-    
-    
+    public Customer (){
+
+    }    
     //* Customer constructor with all the necessar info */
     public Customer (String email, String username, String firstName, String lastName, String gender, LocalDate birthdate, String phoneNumber, String address, String zipCode){
         this.firstName = firstName;
@@ -33,6 +34,12 @@ public class Customer {
         this.email = email;
         this.username = username;
         this.zipCode = zipCode;
+    }
+
+   //this is just for test
+    public Customer (String username, String passward){
+        this.username = username;
+        this.passwordHash = passward;
     }
 
 
@@ -70,6 +77,10 @@ public class Customer {
 
     public String getUsername(){
         return username;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
     }
 
     public LocalDate getBirthdate(){

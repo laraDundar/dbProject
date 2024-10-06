@@ -54,8 +54,13 @@ public class Pizza {
             totalIngredientPrice += pizzaIngredient.getPriceIngredientPerQuantity(); // Use the total price from PizzaIngredient
         }
 
-        double profitMargin = 0.2; // 20% profit margin
-        return totalIngredientPrice * (1 + profitMargin); // Calculate the final price
+        double profitMargin = 0.4; // 40% profit margin
+        double priceWithMargin = totalIngredientPrice * (1 + profitMargin); // Calculate the price with profit margin
+
+        double vatRate = 0.09; // 9% VAT
+        double finalPrice = priceWithMargin * (1 + vatRate); // Add VAT to the price
+        
+        return finalPrice;
     }
 
     /**

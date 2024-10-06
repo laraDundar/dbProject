@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\dbConnector.java
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\LoginManager.java
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\Pizza.java
@@ -16,3 +17,23 @@ C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSof
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\Dessert.java
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\menu.java
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\OrderItem.java
+=======
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\PizzaIngredient.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\menu.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Delivery.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Ingredient.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Main.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Pizza.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\OrderItem.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\App.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Dessert.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\DeliveryPerson.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\dbConnector.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\DiscountCode.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Customer.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\DeliveryPersonArea.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\LoginManager.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\DeliveryArea.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Order.java
+C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Drink.java
+>>>>>>> 49e94c9b3003727752cbdbd08a30d15e3beac6d7
