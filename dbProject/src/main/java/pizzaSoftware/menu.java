@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
@@ -65,7 +66,34 @@ public class menu {
         setupDrinkTable();
         setupDessertTable();
         loadMenuData();
+
+            
+        pizzaMenuTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) { 
+                Pizza selectedPizza = pizzaMenuTable.getSelectionModel().getSelectedItem();
+            if (selectedPizza != null) {
+                showIngredients(selectedPizza);
+            }
+        }
+    });
     }
+
+    private void showIngredients(Pizza pizza) {
+    List<PizzaIngredient> ingredients = pizza.getIngredients();
+    StringBuilder ingredientsList = new StringBuilder("Ingredients for " + pizza.getPizzaName() + ":\n");
+
+    for (PizzaIngredient pizzaIngredient : ingredients) {
+        ingredientsList.append("- ")
+                .append(pizzaIngredient.getIngredient().getIngredientName())
+                .append("\n");
+    }
+
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Pizza Ingredients");
+    alert.setHeaderText("Ingredients for " + pizza.getPizzaName());
+    alert.setContentText(ingredientsList.toString());
+    alert.showAndWait();
+}
 
     private void setupPizzaTable() {
         
@@ -76,10 +104,17 @@ public class menu {
         pizzaPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price")); // Looks for getPrice()
 
         TableColumn<Pizza, Boolean> vegetarianColumn = new TableColumn<>("Vegetarian");
-        vegetarianColumn.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isVegetarian()));
+        vegetarianColumn.setCellValueFactory(cellData -> {
+            Pizza pizza = cellData.getValue();
+            return new SimpleBooleanProperty(pizza.isVegetarian());
+        });
 
         TableColumn<Pizza, Boolean> veganColumn = new TableColumn<>("Vegan");
-        veganColumn.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isVegan()));
+        veganColumn.setCellValueFactory(cellData -> {
+            Pizza pizza = cellData.getValue();
+            // Ensure that pizza is fetched from the database before checking
+            return new SimpleBooleanProperty(pizza.isVegan()); // Call isVegan() which fetches the ingredients
+        });
 
         pizzaMenuTable.getColumns().addAll(pizzaNameColumn, pizzaPriceColumn, vegetarianColumn, veganColumn);
 
@@ -114,5 +149,7 @@ public class menu {
 
         List<Dessert> desserts = menuService.getDesserts();
         dessertsMenuTable.getItems().addAll(desserts);
-    } 
+    }
+
+    
 }
