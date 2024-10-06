@@ -12,6 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.sql.Connection;
 
 public class loginPageController {
     @FXML
@@ -33,6 +34,11 @@ public class loginPageController {
 
     public loginPageController() {
         loginManager = new LoginManager();
+    }
+    
+    private Connection getConnection() {
+        dbConnector dbConnector = new dbConnector();
+        return dbConnector.connect();
     }
 
     @FXML
@@ -73,17 +79,25 @@ public class loginPageController {
 
     private void loadMainPage() {
         try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainPage.fxml"));
+        Parent mainPageRoot = loader.load();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainPage.fxml"));
-            Parent mainPageRoot = loader.load();
+        // Retrieve the controller
+        menu menuController = loader.getController();
 
-            Stage stage = (Stage) signInButton.getScene().getWindow();
-            stage.setScene(new Scene(mainPageRoot));
-            stage.setTitle("Main Page");
+        // Assuming you have a method to get your connection object
+        Connection connection = getConnection(); // Replace this with your actual connection retrieval logic
+
+        // Pass the connection to the menu controller
+        menuController.setConnection(connection);
+
+        Stage stage = (Stage) signInButton.getScene().getWindow();
+        stage.setScene(new Scene(mainPageRoot));
+        stage.setTitle("Main Page");
 
         } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Navigation Error", "Unable to load the main page.");
+        e.printStackTrace();
+        showAlert("Navigation Error", "Unable to load the main page.");
         }
     }
 

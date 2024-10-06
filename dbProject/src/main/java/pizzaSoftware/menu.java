@@ -22,6 +22,11 @@ public class menu {
         this.menuService = new MenuService();
     }
 
+    // Method to set the Connection object
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+    
     @FXML
     private Label pizzaMenuLabel;
 
