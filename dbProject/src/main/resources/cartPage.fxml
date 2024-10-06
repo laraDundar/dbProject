@@ -5,7 +5,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <SplitPane dividerPositions="0.1040268456375839, 0.697986577181208" orientation="VERTICAL" prefHeight="300.0" prefWidth="300.0">
@@ -22,14 +21,13 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <RadioButton fx:id="tenPizzasDiscountRButton" layoutX="10.0" layoutY="140.0" mnemonicParsing="false" onAction="#discountRadioButtonsAction" text="10 Pizzas Discount" />
-                  <RadioButton fx:id="birthdayDiscountRButton" layoutX="10.0" layoutY="115.0" mnemonicParsing="false" onAction="#discountRadioButtonsAction" text="Birthday Discount" />
-                  <Label fx:id="discountsLabel" layoutX="14.0" layoutY="88.0" text="Discounts:">
+                  <RadioButton fx:id="tenPizzasDiscountRButton" layoutX="77.0" layoutY="140.0" mnemonicParsing="false" onAction="#discountRadioButtonsAction" text="10 Pizzas Discount" />
+                  <RadioButton fx:id="birthdayDiscountRButton" layoutX="77.0" layoutY="115.0" mnemonicParsing="false" onAction="#discountRadioButtonsAction" text="Birthday Discount" />
+                  <Label fx:id="discountsLabel" layoutX="14.0" layoutY="88.0" text="Discounts Applied:">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Button fx:id="applyDiscountsButton" layoutX="165.0" layoutY="121.0" mnemonicParsing="false" onAction="#applyDiscountsAction" text="Apply Discounts" />
                   <TableView fx:id="checkoutCartTable" layoutX="15.0" layoutY="28.0" prefHeight="55.0" prefWidth="200.0">
                     <columns>
                       <TableColumn prefWidth="75.0" text="C1" />
