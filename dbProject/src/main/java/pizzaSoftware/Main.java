@@ -92,7 +92,7 @@ public class Main {
         LoginManager loginManager = new LoginManager();
 
         // Step 1: Register a new customer
-        Customer customer = new Customer();
+        Customer customer = new Customer(null, null, null, null, null, null, null, null, null);
         customer.setUsername("john_doe");
         
         String password = "password123";

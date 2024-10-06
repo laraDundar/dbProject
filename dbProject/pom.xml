@@ -116,7 +116,7 @@
             <execution>
                 <id>default-cli</id>
                 <configuration>
-                    <mainClass>pizzaSoftware.App</mainClass>
+                    <mainClass>pizzaSoftware.testmain</mainClass>
                 </configuration>
             </execution>
         </executions>
