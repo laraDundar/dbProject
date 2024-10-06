@@ -1,5 +1,9 @@
 package pizzaSoftware;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -13,20 +17,42 @@ public class DeliveryService {
     private List<DeliveryPerson> deliveryPeople; // List of delivery people
     private List<DeliveryBatch> deliveryBatches; // List of delivery batches
     private String zipCode;
+    private dbConnector dbConnector;
 
     public DeliveryService(String zipCode) {
         orders = new ArrayList<>();
         deliveryPeople = new ArrayList<>();
         deliveryBatches = new ArrayList<>();
         this.zipCode = zipCode;
+        dbConnector = new dbConnector();
+    }
+
+    public void createDelivery(Order order, String deliveryAddress) {
+        Delivery delivery = new Delivery(zipCode, order);
+        saveDeliveryToDatabase(delivery);
+    }
+
+    private void saveDeliveryToDatabase(Delivery delivery) {
+        String sql = "INSERT INTO Deliveries (order_id, start_time, status) VALUES (?, ?, ?)";
+        try (Connection conn = dbConnector.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, delivery.getOrderId());
+            pstmt.setTimestamp(3, delivery.getStartTime());
+            pstmt.setString(4, delivery.getStatus());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            // Handle exceptions
+        }
     }
 
     // Method to place an order
-    public void placeOrder(Order order) {
-        orders.add(order);
-        order.setOrderTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+    public void placeDelivery(Order order) {
+        
+        //orders.add(order);
+        //order.setOrderTimestamp(Timestamp.valueOf(LocalDateTime.now()));
 
         // Schedule delivery after 5 minutes
+        createDelivery(order, zipCode);
         scheduleDelivery(order);
         DeliveryBatch deliveryBatch = findDeliveryBatch(order, zipCode);
         DeliveryPerson deliveryPerson = deliveryBatch.getDeliveryPerson();
@@ -54,16 +80,31 @@ public class DeliveryService {
     }
 
     // Method to find a delivery batch for grouping
-    private DeliveryBatch findDeliveryBatch(Order order, String zipCode) {
-        for (DeliveryBatch batch : deliveryBatches) {
-            if (batch.getPostalCode().equals(zipCode) &&
-                ChronoUnit.MINUTES.between(batch.getStartTime(), LocalDateTime.now()) <= 3) {
-                return batch;
-            }
+private DeliveryBatch findDeliveryBatch(Order order, String zipCode) {
+    // Check existing delivery batches for a matching postal code
+    for (DeliveryBatch batch : deliveryBatches) {
+        if (batch.getPostalCode().equals(zipCode) &&
+            ChronoUnit.MINUTES.between(batch.getStartTime(), LocalDateTime.now()) <= 3) {
+            return batch; // Return existing batch
         }
-        return null;
     }
 
+
+     // If no existing batch is found, create a new one
+     DeliveryBatch newBatch = new DeliveryBatch(zipCode);
+
+     // Find an available delivery person based on the zip code
+     DeliveryPerson assignedDeliveryPerson = findAvailableDeliveryPerson();
+     if (assignedDeliveryPerson != null) {
+         newBatch.setDeliveryPerson(assignedDeliveryPerson); // Assign the delivery person to the batch
+     } else {
+         System.out.println("No available delivery person found for zip code: " + zipCode);
+     }
+ 
+     deliveryBatches.add(newBatch); // Add the new batch to the collection
+     return newBatch; // Return the new delivery batch
+}
+    
     // Method to process delivery
     private void processDelivery(DeliveryBatch batch) {
         DeliveryPerson availableDeliveryPerson = findAvailableDeliveryPerson();
@@ -78,11 +119,12 @@ public class DeliveryService {
     // Method to find an available delivery person
     private DeliveryPerson findAvailableDeliveryPerson() {
         for (DeliveryPerson person : deliveryPeople) {
-            if (person.isAvailable()) {
-                return person;
+            // Assuming you have a method isAvailable() in DeliveryPerson
+            if (person.isAvailable() && person.getDeliveryArea(person.getDeliveryPersonId()).getZipCode().contains(zipCode)) {
+                return person; // Return the first available delivery person for the zip code
             }
         }
-        return null;
+        return null; // No available delivery person found
     }
 
     // Method to estimate delivery time based on distance

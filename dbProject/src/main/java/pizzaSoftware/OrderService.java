@@ -136,7 +136,7 @@ public class OrderService {
         order.setEstimatedPreparationTime(estimatedPreparationTime);
 
         DeliveryService deliveryService = new DeliveryService(orderZipCode);
-        deliveryService.placeOrder(order);
+        deliveryService.placeDelivery(order);
         //System.out.println("Delivery time: " + deliveryService.estimateDeliveryTime());
     
         // Print the estimated preparation time
