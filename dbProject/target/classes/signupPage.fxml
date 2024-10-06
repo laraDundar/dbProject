@@ -14,24 +14,24 @@
       </Label>
       <Label fx:id="signUpUsernameLabel" layoutX="10.0" layoutY="50.0" text="Username" />
       <Label fx:id="signUpPasswordLabel" layoutX="10.0" layoutY="115.0" text="Password" />
-      <TextField fx:id="newAccountUsernameTextField" layoutX="7.0" layoutY="75.0" onAction="#newAccountUsernameAction" />
-      <TextField fx:id="newAccountPasswordTextField" layoutX="7.0" layoutY="140.0" onAction="#newAccountPasswordAction" />
+      <TextField fx:id="newAccountUsernameTextField" layoutX="7.0" layoutY="75.0" />
+      <TextField fx:id="newAccountPasswordTextField" layoutX="7.0" layoutY="140.0" />
       <Button fx:id="signUpButton" layoutX="87.0" layoutY="697.0" mnemonicParsing="false" onAction="#signUpAction" text="Sign Up" />
       <Label fx:id="signUpEmailLabel" layoutX="10.0" layoutY="180.0" text="Email" />
-      <TextField fx:id="newAccountEmailTextField" layoutX="7.0" layoutY="205.0" onAction="#newAccountEmailAction" />
+      <TextField fx:id="newAccountEmailTextField" layoutX="7.0" layoutY="205.0" />
       <Label fx:id="signUpNameLabel" layoutX="10.0" layoutY="245.0" text="Name" />
-      <TextField fx:id="newAccountNameTextField" layoutX="7.0" layoutY="270.0" onAction="#newAccountNameAction" />
+      <TextField fx:id="newAccountNameTextField" layoutX="7.0" layoutY="270.0" />
       <Label fx:id="signUpBirthdateLabel" layoutX="10.0" layoutY="375.0" text="Birthdate" />
-      <DatePicker fx:id="newAccountBirthSelector" layoutX="7.0" layoutY="400.0" onAction="#newAccountBirthSelectorAction" />
+      <DatePicker fx:id="newAccountBirthSelector" layoutX="7.0" layoutY="400.0" />
       <Label fx:id="signUpPhoneLabel" layoutX="7.0" layoutY="440.0" text="Phone Number" />
-      <TextField fx:id="newAccountPhoneTextField" layoutX="10.0" layoutY="465.0" onAction="#newAccountPhoneAction" />
+      <TextField fx:id="newAccountPhoneTextField" layoutX="10.0" layoutY="465.0" />
       <Label fx:id="signUpGenderLabel" layoutX="7.0" layoutY="505.0" text="Gender" />
-      <ComboBox fx:id="newAccountGenderComboBox" layoutX="7.0" layoutY="525.0" onAction="#newAccountGenderAction" prefWidth="150.0" />
+      <ComboBox fx:id="newAccountGenderComboBox" layoutX="7.0" layoutY="525.0" prefWidth="150.0" />
       <Label fx:id="signUpAddressLabel" layoutX="7.0" layoutY="565.0" text="Address" />
-      <TextField fx:id="newAccountAddressTextField" layoutX="7.0" layoutY="590.0" onAction="#newAccountAddressAction" />
+      <TextField fx:id="newAccountAddressTextField" layoutX="7.0" layoutY="590.0" />
       <Label fx:id="signUpZipCodeLabel" layoutX="7.0" layoutY="630.0" text="Zip Code" />
-      <TextField fx:id="newAccountZipTextField" layoutX="10.0" layoutY="655.0" onAction="#newAccountZipAction" />
+      <TextField fx:id="newAccountZipTextField" layoutX="10.0" layoutY="655.0" />
       <Label fx:id="signUpSurnameLabel" layoutX="10.0" layoutY="310.0" text="Surname" />
-      <TextField fx:id="newAccountSurnameTextField" layoutX="7.0" layoutY="335.0" onAction="#newAccountSurnameAction" />
+      <TextField fx:id="newAccountSurnameTextField" layoutX="7.0" layoutY="335.0" />
    </children>
 </AnchorPane>

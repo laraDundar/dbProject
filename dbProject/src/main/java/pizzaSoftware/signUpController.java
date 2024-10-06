@@ -65,15 +65,42 @@ public class signUpController {
         String address = newAccountAddressTextField.getText();
         String zipCode = newAccountZipTextField.getText();
 
+        if (username.isEmpty() || password.isEmpty() || email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() ||
+            birthdate == null || phoneNumber.isEmpty() || gender == null || address.isEmpty() || zipCode.isEmpty()) {
+            showAlert("Error", "All fields must be filled out.");
+            return;
+        }
+
         Customer newCustomer = new Customer(email, username, firstName, lastName, gender, birthdate, phoneNumber, address, zipCode);
 
-        loginManager.registerCustomer(newCustomer, password);
-        
+        try {
+            loginManager.registerCustomer(newCustomer, password);
+            showAlert("Registration Success", "Customer registered successfully!");
+            clearFields();
+        } catch (Exception e) {
+            showAlert("Registration Failed", "Customer not registered. Please try again.");
+        }
+    }
+
+    private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Registration Success!");
+        alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText("You are registered successfully!");
+        alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void clearFields() {
+        newAccountUsernameTextField.clear();
+        newAccountPasswordTextField.clear();
+        newAccountEmailTextField.clear();
+        newAccountNameTextField.clear();
+        newAccountSurnameTextField.clear();
+        newAccountBirthSelector.setValue(null);
+        newAccountPhoneTextField.clear();
+        newAccountGenderComboBox.setValue(null);
+        newAccountAddressTextField.clear();
+        newAccountZipTextField.clear();
     }
 
 }
