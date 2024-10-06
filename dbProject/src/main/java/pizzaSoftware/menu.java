@@ -17,6 +17,10 @@ public class menu {
     private Connection connection;
     private MenuService menuService;
 
+    public menu() {
+        this.menuService = new MenuService();
+    }
+
     public menu(Connection connection) {
         this.connection = connection;
         this.menuService = new MenuService();
@@ -25,6 +29,10 @@ public class menu {
     // Method to set the Connection object
     public void setConnection(Connection connection) {
         this.connection = connection;
+    }
+
+    public void setMenuService(MenuService menuService) {
+        this.menuService = menuService;
     }
     
     @FXML

@@ -92,6 +92,7 @@ public class loginPageController {
 
         // Pass the connection to the menu controller
         menuController.setConnection(connection);
+        menuController.setMenuService(new MenuService());
 
         Stage stage = (Stage) signInButton.getScene().getWindow();
         stage.setScene(new Scene(mainPageRoot));
