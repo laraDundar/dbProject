@@ -28,6 +28,10 @@ public class DeliveryService {
 
         // Schedule delivery after 5 minutes
         scheduleDelivery(order);
+        DeliveryBatch deliveryBatch = findDeliveryBatch(order, zipCode);
+        DeliveryPerson deliveryPerson = deliveryBatch.getDeliveryPerson();
+        DeliveryArea deliveryArea = deliveryPerson.getDeliveryArea(deliveryPerson.getDeliveryPersonId());
+        System.out.println("Estimated delivey time yey: " + estimateDeliveryTime(deliveryArea.getDistance()));
     }
 
     // Method to schedule delivery

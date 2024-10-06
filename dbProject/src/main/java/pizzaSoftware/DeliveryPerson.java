@@ -8,6 +8,7 @@ public class DeliveryPerson {
     private String areaId; // Area they are assigned to
     private boolean availabilityStatus; // true if available, false otherwise
     private LocalDateTime unavailableUntil; // Track when they become available again
+    private DeliveryArea deliveryArea;
 
     public DeliveryPerson(int deliveryPersonId, String name, String areaId) {
         this.deliveryPersonId = deliveryPersonId;
@@ -40,5 +41,9 @@ public class DeliveryPerson {
 
     public String getAreaId() {
         return areaId;
+    }
+
+    public DeliveryArea getDeliveryArea(int deliveryPersonId){
+        return deliveryArea;
     }
 }

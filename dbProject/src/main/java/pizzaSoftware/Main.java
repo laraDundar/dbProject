@@ -92,10 +92,11 @@ public class Main {
         LoginManager loginManager = new LoginManager();
 
         // Step 1: Register a new customer
-        Customer customer = new Customer(null, null, null, null, null, null, null, null, null);
-        customer.setUsername("john_doe");
+        Customer customer = new Customer("ghgh@hjghj", "john_doe", "John", "Doe", "male", LocalDate.of(1997, 10, 06), "564646", "Nido ghgh", "1000AB");
+        //customer.setUsername("john_doe");
         customer.setPizzaOrderCount(11);
-        customer.setBirthdate(LocalDate.of(2005, 10, 06));
+        //customer.setBirthdate(LocalDate.of(2005, 10, 06));
+        
         
         String password = "password123";
         /* 

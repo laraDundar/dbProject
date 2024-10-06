@@ -81,7 +81,7 @@ public class loginPageController {
 
     private void loadMainPage() {
         try {
-        FXMLLoader loader = new FXMLLoader(new File("C:/MARIA/DATABASE PROJECT TOM PEPPELS/dbProject/dbProject/src/main/resources/mainPage.fxml").toURI().toURL());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainPage.fxml"));
         Parent mainPageRoot = loader.load();
 
         // Retrieve the controller

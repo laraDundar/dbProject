@@ -16,6 +16,7 @@ public class DeliveryArea {
         return areaId;
     }
 
+
     public String getZipCode() {
         return zipCode;
     }

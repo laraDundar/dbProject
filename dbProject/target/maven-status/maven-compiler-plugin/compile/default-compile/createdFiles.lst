@@ -10,7 +10,6 @@ pizzaSoftware\Ingredient.class
 pizzaSoftware\DiscountManager.class
 pizzaSoftware\OrderItem.class
 pizzaSoftware\Drink.class
-pizzaSoftware\DeliveryPersonArea.class
 pizzaSoftware\menu.class
 pizzaSoftware\MenuService.class
 pizzaSoftware\Customer.class
