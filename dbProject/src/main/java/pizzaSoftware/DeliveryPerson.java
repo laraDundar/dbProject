@@ -5,12 +5,12 @@ import java.time.LocalDateTime;
 public class DeliveryPerson {
     private int deliveryPersonId;
     private String name;
-    private String areaId; // Area they are assigned to
+    private int areaId; // Area they are assigned to
     private boolean availabilityStatus; // true if available, false otherwise
     private LocalDateTime unavailableUntil; // Track when they become available again
     private DeliveryArea deliveryArea;
 
-    public DeliveryPerson(int deliveryPersonId, String name, String areaId) {
+    public DeliveryPerson(int deliveryPersonId, String name, int areaId) {
         this.deliveryPersonId = deliveryPersonId;
         this.name = name;
         this.areaId = areaId;
@@ -39,7 +39,7 @@ public class DeliveryPerson {
         return name;
     }
 
-    public String getAreaId() {
+    public int getAreaId() {
         return areaId;
     }
 

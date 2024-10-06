@@ -1,5 +1,6 @@
 package pizzaSoftware;
 
+import java.security.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -89,16 +90,16 @@ public class Main {
             }
         }*/
 
-        LoginManager loginManager = new LoginManager();
+        //LoginManager loginManager = new LoginManager();
 
         // Step 1: Register a new customer
-        Customer customer = new Customer("ghgh@hjghj", "john_doe", "John", "Doe", "male", LocalDate.of(1997, 10, 06), "564646", "Nido ghgh", "1000AB");
+        //Customer customer = new Customer("ghgh@hjghj", "john_doe", "John", "Doe", "male", LocalDate.of(1997, 10, 06), "564646", "Nido ghgh", "1000AB");
         //customer.setUsername("john_doe");
-        customer.setPizzaOrderCount(11);
+        //customer.setPizzaOrderCount(11);
         //customer.setBirthdate(LocalDate.of(2005, 10, 06));
         
         
-        String password = "password123";
+        //String password = "password123";
         /* 
         System.out.println("Registering customer...");
         loginManager.registerCustomer(customer, password);
@@ -119,7 +120,7 @@ public class Main {
        
             
             // Create a list of pizza IDs to order
-            List<Integer> pizzaIds = new ArrayList<>();
+            /*List<Integer> pizzaIds = new ArrayList<>();
             pizzaIds.add(1); // Assuming pizza ID 1 exists
             pizzaIds.add(2); // Assuming pizza ID 2 exists
             
@@ -133,7 +134,7 @@ public class Main {
             // Create an order
             OrderService orderService = new OrderService();
             
-            Order order = orderService.placeOrder(customer, pizzaIds, drinkIds, dessertIds);
+            Order order = orderService.placeOrder(customer, pizzaIds, drinkIds, dessertIds);*/
             
             // Print out order details
             /*System.out.println("Order placed successfully! yey");
@@ -162,8 +163,49 @@ public class Main {
          }*/
        
     
+
+        // Create the necessary objects for testing
+        MenuService menuService = new MenuService();
+        OrderService orderService = new OrderService();
+
+        // Create a sample customer (you can adjust the details)
+        Customer customer = new Customer("john@doe.com", "johndoe", "John", "Doe", "M", LocalDate.of(1990, 1, 1),
+                                         "0612345678", "123 Main St", "1000AB");
+
+        // Create some pizza, drink, and dessert IDs for the order
+        List<Integer> pizzaIds = new ArrayList<>();
+        pizzaIds.add(1); // Add the pizza IDs that exist in your menu
+
+        List<Integer> drinkIds = new ArrayList<>();
+        drinkIds.add(1); // Add the drink IDs that exist in your menu
+
+        List<Integer> dessertIds = new ArrayList<>();
+        dessertIds.add(1); // Add the dessert IDs that exist in your menu
+
+        // Place the order using the OrderService
+        Order order = orderService.placeOrder(customer, pizzaIds, drinkIds, dessertIds);
+
+        // Output the estimated preparation time and delivery time
+        int estimatedPrepTime = orderService.estimatePreparationTime(pizzaIds.size());
+        System.out.println("Estimated Preparation Time: " + estimatedPrepTime + " minutes");
+
+        // Simulate the delivery area (assuming the delivery person is ID 1)
+        DeliveryService deliveryService = new DeliveryService(customer.getZipCode());
+        
+        // Manually setting up delivery areas and distance (assuming deliveryPersonId = 1)
+        DeliveryArea deliveryArea = new DeliveryArea(1, customer.getZipCode(), 2); // Assuming distance 2 (far)
+        //DeliveryPerson deliveryPerson = new DeliveryPerson(1, "Max", 1);
+        //deliveryService.assignDeliveryAreaToPerson(1, deliveryArea); // Assign the area to delivery person 1
+        
+        // Estimate delivery time for the order based on distance
+        int estimatedDeliveryTime = deliveryService.estimateDeliveryTime(deliveryArea.getDistance());
+        System.out.println("Estimated Delivery Time: " + estimatedDeliveryTime + " minutes");
+
+        // Combine preparation and delivery time for total estimate
+        int totalEstimateTime = estimatedPrepTime + estimatedDeliveryTime;
+        System.out.println("Total Estimated Time (Preparation + Delivery): " + totalEstimateTime + " minutes");
     }
-}
+    }
 
         
     
