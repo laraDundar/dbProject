@@ -2,7 +2,9 @@ package pizzaSoftware;
 
 import java.sql.Connection;
 import java.util.List;
+import javafx.util.Duration;
 
+import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,14 +19,17 @@ public class menu {
 
     private Connection connection;
     private MenuService menuService;
+    private cart Cart;
 
     public menu() {
         this.menuService = new MenuService();
+        this.Cart = new cart(); 
     }
 
     public menu(Connection connection) {
         this.connection = connection;
         this.menuService = new MenuService();
+        this.Cart = new cart();
     }
 
     // Method to set the Connection object
@@ -67,12 +72,37 @@ public class menu {
         setupDessertTable();
         loadMenuData();
 
-            
         pizzaMenuTable.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) { 
-                Pizza selectedPizza = pizzaMenuTable.getSelectionModel().getSelectedItem();
-            if (selectedPizza != null) {
-                showIngredients(selectedPizza);
+            Pizza selectedPizza = pizzaMenuTable.getSelectionModel().getSelectedItem();
+            
+            if (event.getClickCount() == 2) {
+                if (selectedPizza != null) {
+                    addPizzaToCart(selectedPizza); // Add pizza to cart on double-click
+                }
+            } else if (event.getClickCount() == 1) {
+                PauseTransition pause = new PauseTransition(Duration.millis(300));
+                pause.setOnFinished(e -> {
+                    if (selectedPizza != null) {
+                        showIngredients(selectedPizza); // Show ingredients on single-click
+            }
+        });
+        pause.play();
+            }
+        });
+
+        drinksMenuTable.setOnMouseClicked(event -> {
+            if(event.getClickCount() == 2) {
+                Drink selectedDrink = drinksMenuTable.getSelectionModel().getSelectedItem();
+                if (selectedDrink != null) {
+                    addDrinkToCart(selectedDrink);
+            }
+        }
+    });
+        dessertsMenuTable.setOnMouseClicked(event -> {
+        if(event.getClickCount() == 2) {
+            Dessert selectedDessert = dessertsMenuTable.getSelectionModel().getSelectedItem();
+                if (selectedDessert != null) {
+                    addDessertToCart(selectedDessert);
             }
         }
     });
@@ -151,5 +181,31 @@ public class menu {
         dessertsMenuTable.getItems().addAll(desserts);
     }
 
+    private void addPizzaToCart(Pizza pizza) {
+        cart.addPizza(pizza); // Add selected pizza to cart
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Pizza Added");
+        alert.setHeaderText("Added to Cart");
+        alert.setContentText(pizza.getPizzaName() + " has been added to your cart.");
+        alert.showAndWait();
+    }
+
+    private void addDrinkToCart(Drink drink) {
+        cart.addDrink(drink); // Add selected drink to cart
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Drink Added");
+        alert.setHeaderText("Added to Cart");
+        alert.setContentText(drink.getDrinkName() + " has been added to your cart.");
+        alert.showAndWait();
+    }
+
+    private void addDessertToCart(Dessert dessert) {
+        cart.addDessert(dessert); // Add selected dessert to cart
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Dessert Added");
+        alert.setHeaderText("Added to Cart");
+        alert.setContentText(dessert.getDessertName() + " has been added to your cart.");
+        alert.showAndWait();
+    }
     
 }
