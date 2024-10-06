@@ -22,11 +22,19 @@ public class LoginManager {
         String passwordHash = hashPassword(password, salt, PEPPER);
 
         try (Connection connection = dbConnection.connect()) {
-            String query = "INSERT INTO Customers (username, password_hash, salt) VALUES (?, ?, ?)";
+            String query = "INSERT INTO Customers (username, password_hash, salt, name, address, zip_code, phone_number, email, gender, birthdate) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, customer.getUsername());
             statement.setString(2, passwordHash);
             statement.setString(3, salt);
+            statement.setString(4, customer.getName());
+            statement.setString(5, customer.getAddress());
+            statement.setString(6, customer.getZipCode());
+            statement.setString(7, customer.getPhoneNumber());
+            statement.setString(8, customer.getEmail());
+            statement.setString(9, customer.getGender());
+            statement.setObject(10, customer.getBirthdate());
+
             statement.executeUpdate();
 
             customer.setPasswordHash(passwordHash); // Set the hashed password in the customer object

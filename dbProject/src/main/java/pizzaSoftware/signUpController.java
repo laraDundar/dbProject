@@ -57,21 +57,20 @@ public class signUpController {
         String username = newAccountUsernameTextField.getText();
         String password = newAccountPasswordTextField.getText();
         String email = newAccountEmailTextField.getText();
-        String firstName = newAccountNameTextField.getText();
-        String lastName = newAccountSurnameTextField.getText();
+        String name = newAccountNameTextField.getText();
         LocalDate birthdate = newAccountBirthSelector.getValue();
         String phoneNumber = newAccountPhoneTextField.getText();
         String gender = newAccountGenderComboBox.getValue();
         String address = newAccountAddressTextField.getText();
         String zipCode = newAccountZipTextField.getText();
 
-        if (username.isEmpty() || password.isEmpty() || email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() ||
+        if (username.isEmpty() || password.isEmpty() || email.isEmpty() || name.isEmpty() ||
             birthdate == null || phoneNumber.isEmpty() || gender == null || address.isEmpty() || zipCode.isEmpty()) {
             showAlert("Error", "All fields must be filled out.");
             return;
         }
 
-        Customer newCustomer = new Customer(email, username, firstName, lastName, gender, birthdate, phoneNumber, address, zipCode);
+        Customer newCustomer = new Customer(email, username, name,  gender, birthdate, phoneNumber, address, zipCode);
 
         try {
             loginManager.registerCustomer(newCustomer, password);

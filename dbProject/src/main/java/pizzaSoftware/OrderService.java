@@ -121,6 +121,7 @@ public class OrderService {
         double finalPrice = discountManager.applyLoyaltyDiscount(customer, totalPrice);
         finalPrice = discountManager.applyBirthdayOffer(customer, totalPrice, orderItems, menuService);
         order.setPriceDiscounted(finalPrice);
+        System.out.println("The discounted price 1 :" + order.getPriceDiscounted());
        
         // Save order to the database (this requires implementation of the database logic)
         saveOrderToDatabase(order);
@@ -128,7 +129,7 @@ public class OrderService {
 
          //Send confirmation to the customer (simple print for now)
         System.out.println("Order Confirmation: ");
-        System.out.println("Customer: " + customer.getFirstName() + " " + customer.getLastName());
+        System.out.println("Customer: " + customer.getName());
         System.out.println("Order Total: " + totalPrice);
         System.out.println("Discounted total " + finalPrice);
         // Estimate the preparation time based on the number of pizzas
@@ -154,7 +155,7 @@ public class OrderService {
     }
 
    public void saveOrderToDatabase(Order order) {
-    String orderQuery = "INSERT INTO Orders (customer_id, order_timestamp, status, estimated_delivery_time, price, price_discounted) VALUES (?, ?, ?, ?, ?, ?)";
+    String orderQuery = "INSERT INTO Orders (customer_id, order_timestamp, status, price, price_discounted) VALUES (?, ?, ?, ?, ?)";
     
     try (Connection conn = menuService.getdbConnector().connect(); 
          PreparedStatement orderStmt = conn.prepareStatement(orderQuery, Statement.RETURN_GENERATED_KEYS)) {
@@ -163,9 +164,9 @@ public class OrderService {
         orderStmt.setInt(1, order.getCustomerId()); // Assuming you have a method to get customer ID
         orderStmt.setTimestamp(2, order.getOrderTimestamp()); // Assuming your order class has this method
         orderStmt.setString(3, order.getStatus()); // Assuming you have a status for the order
-        //orderStmt.setInt(4, order.getEstimatedDeliveryTime()); // Assuming you have a method for this
-        orderStmt.setDouble(5, order.getPrice()); // Assuming getPrice() returns BigDecimal
-        orderStmt.setDouble(6, order.getPriceDiscounted()); // Assuming getPriceDiscounted() returns BigDecimal
+        //orderStmt.setInt(4, order.estimatedPreparationTime(order.getCustomerId())); // Assuming you have a method for this
+        orderStmt.setDouble(4, order.getPrice()); // Assuming getPrice() returns BigDecimal
+        orderStmt.setDouble(5, order.getPriceDiscounted()); // Assuming getPriceDiscounted() returns BigDecimal
         
         // Execute the insert and retrieve the generated order ID
         orderStmt.executeUpdate();

@@ -80,7 +80,7 @@ public class DeliveryService {
     }
 
     // Method to find a delivery batch for grouping
-private DeliveryBatch findDeliveryBatch(Order order, String zipCode) {
+DeliveryBatch findDeliveryBatch(Order order, String zipCode) {
     // Check existing delivery batches for a matching postal code
     for (DeliveryBatch batch : deliveryBatches) {
         if (batch.getPostalCode().equals(zipCode) &&
@@ -115,6 +115,57 @@ private DeliveryBatch findDeliveryBatch(Order order, String zipCode) {
             // Update batch status, etc.
         }
     }
+
+
+     // Method to add delivery people (to simulate availability)
+     public void addDeliveryPerson(DeliveryPerson deliveryPerson) {
+        deliveryPeople.add(deliveryPerson);
+    }
+
+     // Method to clear all delivery people (simulating no one is available)
+     public void clearDeliveryPeople() {
+        deliveryPeople.clear();
+    }
+
+    // Method to assign a delivery person based on zip code
+    public void assignDeliveryPersonToBatch(String zipCode) {
+        // Find an existing delivery batch for the given zip code
+        DeliveryBatch batch = findDeliveryBatch(zipCode);
+
+        // Find an available delivery person in that zip code
+        for (DeliveryPerson person : deliveryPeople) {
+            if (person.getDeliveryArea(person.getDeliveryPersonId()).getAreaId() == getAreaIdFromZipCode(zipCode)) {
+                batch.setDeliveryPerson(person);
+                System.out.println("Assigned delivery person: " + person.getName() + " to the batch.");
+                return;
+            }
+        }
+
+        // If no delivery person is available
+        System.out.println("No delivery person available for zip code: " + zipCode);
+    }
+
+     // Helper method to find a delivery batch by zip code
+     private DeliveryBatch findDeliveryBatch(String zipCode) {
+        for (DeliveryBatch batch : deliveryBatches) {
+            if (batch.getPostalCode().equals(zipCode)) {
+                return batch;
+            }
+        }
+
+        // If no batch exists, create a new one
+        DeliveryBatch newBatch = new DeliveryBatch(zipCode);
+        deliveryBatches.add(newBatch);
+        System.out.println("Created a new delivery batch for zip code: " + zipCode);
+        return newBatch;
+    }
+
+    // Simulated method to convert zip code to delivery area ID
+    private int getAreaIdFromZipCode(String zipCode) {
+        // This can be more complex, but for simplicity, let's assume the zipCode matches delivery area IDs
+        return zipCode.hashCode(); // Simulated delivery area ID based on zip code
+    }
+
 
     // Method to find an available delivery person
     private DeliveryPerson findAvailableDeliveryPerson() {

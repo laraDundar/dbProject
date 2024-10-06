@@ -8,8 +8,7 @@ import java.time.LocalDate;
 //this is ok 
 public class Customer {
     private int customerId;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String email;
     private String phoneNumber;
     private String address;
@@ -24,9 +23,8 @@ public class Customer {
 
     }    
     //* Customer constructor with all the necessar info */
-    public Customer (String email, String username, String firstName, String lastName, String gender, LocalDate birthdate, String phoneNumber, String address, String zipCode){
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Customer (String email, String username, String name, String gender, LocalDate birthdate, String phoneNumber, String address, String zipCode){
+        this.name = name;
         this.gender = gender;
         this.birthdate = birthdate;
         this.phoneNumber = phoneNumber;
@@ -52,6 +50,10 @@ public class Customer {
 
     public String getPasswordHash(){
         return passwordHash;
+    }
+
+    public String getGender(){
+        return gender;
     }
 
     public String getUsername(){
@@ -91,20 +93,12 @@ public class Customer {
         this.customerId = customerId;
     }
 
-    public String getFirstName(){
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName){
-        this.firstName = firstName; 
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
