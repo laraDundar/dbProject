@@ -94,6 +94,8 @@ public class Main {
         // Step 1: Register a new customer
         Customer customer = new Customer(null, null, null, null, null, null, null, null, null);
         customer.setUsername("john_doe");
+        customer.setPizzaOrderCount(11);
+        customer.setBirthdate(LocalDate.of(2005, 10, 06));
         
         String password = "password123";
         /* 
@@ -134,30 +136,30 @@ public class Main {
             Order order = orderService.placeOrder(customer, pizzaIds, drinkIds, dessertIds, discountCode);
             
             // Print out order details
-            System.out.println("Order placed successfully! yey");
+            /*System.out.println("Order placed successfully! yey");
             System.out.println("Total Price yey: " + order.getPrice());
-            System.out.println("Estimated Preparation Time yey: " + order.getEstimatedDeliveryTime() + " minutes");
+            System.out.println("Estimated Preparation Time yey: " + order.getEstimatedDeliveryTime() + " minutes");*/
 
             // Attempt to cancel the order
-        int orderIdToCancel = order.getOrderId(); // Assuming Order class has a method to get order ID
-        boolean isCancelled = orderService.cancelOrder(orderIdToCancel);
+        //int orderIdToCancel = order.getOrderId(); // Assuming Order class has a method to get order ID
+       // boolean isCancelled = orderService.cancelOrder(orderIdToCancel);
 
         // Print cancellation result
-        if (isCancelled) {
+        /*if (isCancelled) {
             System.out.println("Order cancelled successfully.");
         } else {
             System.out.println("Failed to cancel the order or cancellation period has expired.");
-        }
+        }*/
 
          // For testing: Simulate a specific order ID directly (for ID 26)
-         int specificOrderIdToCancel = 26; // The specific order ID you want to cancel
+         /*int specificOrderIdToCancel = 26; // The specific order ID you want to cancel
          boolean specificIsCancelled = orderService.cancelOrder(specificOrderIdToCancel);
  
          if (specificIsCancelled) {
              System.out.println("Specific order with ID 26 cancelled successfully.");
          } else {
              System.out.println("Failed to cancel the specific order with ID 26.");
-         }
+         }*/
        
     
     }

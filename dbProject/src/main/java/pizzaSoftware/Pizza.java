@@ -15,6 +15,10 @@ public class Pizza {
         this.pizzaName = pizzaName;
     }
 
+    public Pizza (int pizzaId){
+        this.pizzaId = pizzaId;
+    }
+
     //getters and setters for pizza
 
     public int getPizzaId() {

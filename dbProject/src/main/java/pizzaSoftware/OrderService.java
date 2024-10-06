@@ -20,7 +20,6 @@ public class OrderService {
 
     public OrderService() {
         menuService = new MenuService();
-        discountManager = new DiscountManager();
     }
 
     public Order placeOrder(Customer customer, List<Integer> pizzaIds, List<Integer> drinkIds, List<Integer> dessertIds, String discountCode) {
@@ -118,6 +117,10 @@ public class OrderService {
         order.setPrice(totalPrice);
         //order.setPriceDiscounted(finalPrice);
         order.setOrderItems(orderItems);
+        discountManager = new DiscountManager(order);
+        double finalPrice = discountManager.applyLoyaltyDiscount(customer, totalPrice);
+        finalPrice = discountManager.applyBirthdayOffer(customer, totalPrice, orderItems, menuService);
+        order.setPriceDiscounted(finalPrice);
        
        /*  //Get DeliveryPerson from Delivery via delivery_id
         Delivery delivery = Delivery.getDeliveryId(deliveryId);
@@ -154,12 +157,13 @@ public class OrderService {
         System.out.println("Order Confirmation: ");
         System.out.println("Customer: " + customer.getFirstName() + " " + customer.getLastName());
         System.out.println("Order Total: " + totalPrice);
+        System.out.println("Discounted total " + finalPrice);
         // Estimate the preparation time based on the number of pizzas
-    int estimatedPreparationTime = estimatePreparationTime(pizzaCount);
+        int estimatedPreparationTime = estimatePreparationTime(pizzaCount);
     
-    // Print the estimated preparation time
-    System.out.println("Estimated Preparation Time: " + estimatedPreparationTime + " minutes");
-        return order;
+        // Print the estimated preparation time
+        System.out.println("Estimated Preparation Time: " + estimatedPreparationTime + " minutes");
+            return order;
     }
     public int estimatePreparationTime(int pizzaCount) {
         int baseTime = 5; // Base time for cancellation window

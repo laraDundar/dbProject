@@ -1,13 +1,8 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\dbConnector.java
-C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\LoginManager.java
+C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\OrderService.java
+C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\orderController.java
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\Pizza.java
-C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\Delivery.java
-C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\DiscountCode.java
-C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\Drink.java
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\Main.java
-C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\DeliveryPerson.java
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\PizzaIngredient.java
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\DeliveryArea.java
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\DeliveryPersonArea.java
@@ -15,44 +10,17 @@ C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSof
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\App.java
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\Customer.java
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\Ingredient.java
+C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\cartController.java
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\Dessert.java
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\menu.java
+C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\signUpController.java
+C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\LoginManager.java
+C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\Delivery.java
+C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\DiscountCode.java
+C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\DiscountManager.java
+C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\testmain.java
+C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\Drink.java
+C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\DeliveryPerson.java
+C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\loginPageController.java
+C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\MenuService.java
 C:\MARIA\DATABASE PROJECT TOM PEPPELS\dbProject\dbProject\src\main\java\pizzaSoftware\OrderItem.java
-=======
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\PizzaIngredient.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\menu.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Delivery.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Ingredient.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Main.java
-=======
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\loginPageController.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\PizzaIngredient.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\menu.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\testmain.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Delivery.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Ingredient.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Main.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\MenuService.java
->>>>>>> c80a5f384a3601864623cbc28181c6dd74e86877
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Pizza.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\OrderItem.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\App.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Dessert.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\DeliveryPerson.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\dbConnector.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\DiscountCode.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Customer.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\DeliveryPersonArea.java
-<<<<<<< HEAD
-=======
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\DiscountManager.java
->>>>>>> c80a5f384a3601864623cbc28181c6dd74e86877
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\LoginManager.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\DeliveryArea.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Order.java
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\Drink.java
-<<<<<<< HEAD
->>>>>>> 49e94c9b3003727752cbdbd08a30d15e3beac6d7
-=======
-C:\Users\lara\Desktop\dbProject\dbProject\src\main\java\pizzaSoftware\OrderService.java
->>>>>>> c80a5f384a3601864623cbc28181c6dd74e86877

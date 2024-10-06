@@ -18,7 +18,7 @@ public class Customer {
     private LocalDate birthdate;
     private String passwordHash;
     private String zipCode;
-    private String discountCode;
+    private int numberOfPizzasAfterDiscount;
 
     public Customer (){
 
@@ -34,6 +34,7 @@ public class Customer {
         this.email = email;
         this.username = username;
         this.zipCode = zipCode;
+        this.numberOfPizzasAfterDiscount = 0;
     }
 
    //this is just for test
@@ -42,28 +43,6 @@ public class Customer {
         this.passwordHash = passward;
     }
 
-
-    /** gettter for discountCode 
-    * @return discountCode 
-    */
-    public String getDiscountCode() {
-        return discountCode;
-    }
-
-    /** setter for discountCode */
-    public void setDiscountCode(String discountCode) {
-        this.discountCode = discountCode;
-    }
-
-
-    /**
-     * check if today it is the customer's birthday
-     * @return boolean 
-     */
-    public boolean isBirthday(){
-        LocalDate today = LocalDate.now();
-        return today.getDayOfMonth() == birthdate.getDayOfMonth() && today.getMonth() == birthdate.getMonth();
-    }
 
     //all only getters and seeters for customer's attributes
 
@@ -85,6 +64,22 @@ public class Customer {
 
     public LocalDate getBirthdate(){
         return birthdate;
+    }
+
+    public void setBirthdate (LocalDate birthdate){
+        this.birthdate = birthdate;
+    }
+
+    public int getPizzaOrderCount (){
+        return numberOfPizzasAfterDiscount;
+    }
+
+    public void resetPizzaOrderCount(){
+        numberOfPizzasAfterDiscount = 0;
+    }
+
+    public void setPizzaOrderCount(int numberOfPizzasAfterDiscount){
+        this.numberOfPizzasAfterDiscount = numberOfPizzasAfterDiscount;
     }
 
 
