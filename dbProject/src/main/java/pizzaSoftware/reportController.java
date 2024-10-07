@@ -15,7 +15,7 @@ public class reportController {
     private Label filtersLabel;
 
     @FXML
-    private ComboBox<?> ageComboBox;
+    private ComboBox<String> ageComboBox;
 
     @FXML
     private Label reportTitleLabel;
@@ -24,7 +24,7 @@ public class reportController {
     private ComboBox<?> regionComboBox;
 
     @FXML
-    private ComboBox<?> genderComboBox;
+    private ComboBox<String> genderComboBox;
 
     @FXML
     void regionAction(ActionEvent event) {
@@ -39,6 +39,12 @@ public class reportController {
     @FXML
     void ageAction(ActionEvent event) {
 
+    }
+
+    @FXML
+    public void initialize() {
+        genderComboBox.getItems().addAll("Male", "Female");
+        ageComboBox.getItems().addAll("18-", "18-30", "30-40", "40-50", "50-60", "60+");
     }
     
 }
