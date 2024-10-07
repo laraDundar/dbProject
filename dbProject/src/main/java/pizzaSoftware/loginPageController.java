@@ -34,6 +34,9 @@ public class loginPageController {
 
     private LoginManager loginManager;
 
+    private static final String OWNER_USERNAME = "maria";
+    private static final String OWNER_PASSWORD = "1234";
+
     public loginPageController() {
         loginManager = new LoginManager();
     }
@@ -50,6 +53,12 @@ public class loginPageController {
 
         if (username.isEmpty() || password.isEmpty()) {
             showAlert("Login Error", "Please fill in both username and password.");
+            return;
+        }
+
+        if (username.equals(OWNER_USERNAME) && password.equals(OWNER_PASSWORD)) {
+            showAlert("Login Success", "Welcome, Pizzeria Owner!");
+            loadOwnerPage();
             return;
         }
 
@@ -110,5 +119,19 @@ public class loginPageController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void loadOwnerPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/earningsReport.fxml"));
+            Parent ownerPageRoot = loader.load();
+    
+            Stage stage = (Stage) signInButton.getScene().getWindow();
+            stage.setScene(new Scene(ownerPageRoot));
+            stage.setTitle("Earnings Report Page");
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Navigation Error", "Unable to load the earnings report page.");
+        }
     }
 }
