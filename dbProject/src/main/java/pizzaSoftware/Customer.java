@@ -102,7 +102,7 @@ public class Customer {
              PreparedStatement statement = connection.prepareStatement(query)) {
              
             statement.setString(1, name); // Assuming firstName is the same as name
-            statement.setString(2, name); // You might want to change this to a separate lastName if you have it
+            //statement.setString(2, name); // You might want to change this to a separate lastName if you have it
             statement.setString(3, email);
             statement.setString(4, phoneNumber);
             statement.setString(5, address);
