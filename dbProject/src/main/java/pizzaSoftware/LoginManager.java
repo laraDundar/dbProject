@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -116,7 +117,14 @@ public class LoginManager {
                 customer.setPhoneNumber(resultSet.getString("phone_number"));
                 customer.setEmail(resultSet.getString("email"));
                 customer.setGender(resultSet.getString("gender"), connector);
-                customer.setBirthdate(resultSet.getDate("birthdate").toLocalDate());
+                // customer.setBirthdate(resultSet.getDate("birthdate").toLocalDate());
+                Date birthDate = resultSet.getDate("birthdate");
+                if (birthDate != null) {
+                    customer.setBirthdate(birthDate.toLocalDate());
+                } else {
+                // Handle the case where birthdate is null, if necessary
+                customer.setBirthdate(null); // Or some default value
+    }
             }
         } catch (SQLException e) {
             e.printStackTrace();
