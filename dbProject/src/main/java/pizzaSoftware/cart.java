@@ -4,9 +4,10 @@ import java.util.List;
 
 public class cart {
 
-    public static List<Pizza> pizzasInCart;
-    public static List<Drink> drinksInCart;
-    public static List<Dessert> dessertsInCart;
+    private static cart instance;
+    public List<Pizza> pizzasInCart;
+    public List<Drink> drinksInCart;
+    public List<Dessert> dessertsInCart;
 
     public cart() {
         pizzasInCart = new ArrayList<>();
@@ -14,13 +15,31 @@ public class cart {
         dessertsInCart = new ArrayList<>();
     }
 
-    public static void addPizza(Pizza selectedPizza) {
+    public static cart getInstance() {
+        if (instance == null) {
+            instance = new cart();
+        }
+        return instance;
+    }
+
+    public void addPizza(Pizza selectedPizza) {
         pizzasInCart.add(selectedPizza);
     }
-    public static void addDrink(Drink selectedDrink) {
+    public void addDrink(Drink selectedDrink) {
         drinksInCart.add(selectedDrink);
     }
-    public static void addDessert(Dessert selectedDessert) {
+    public void addDessert(Dessert selectedDessert) {
         dessertsInCart.add(selectedDessert);
+    }
+    public List<Pizza> getPizzasInCart() {
+        return pizzasInCart;
+    }
+
+    public List<Drink> getDrinksInCart() {
+        return drinksInCart;
+    }
+
+    public List<Dessert> getDessertsInCart() {
+        return dessertsInCart;
     }
 }

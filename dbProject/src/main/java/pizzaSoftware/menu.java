@@ -8,6 +8,7 @@ import java.net.URL;
 
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -123,14 +124,6 @@ public class menu {
                 if (selectedPizza != null) {
                     addPizzaToCart(selectedPizza); // Add pizza to cart on double-click
                 }
-            } else if (event.getClickCount() == 1) {
-                PauseTransition pause = new PauseTransition(Duration.millis(300));
-                pause.setOnFinished(e -> {
-                    if (selectedPizza != null) {
-                        showIngredients(selectedPizza); // Show ingredients on single-click
-            }
-        });
-        pause.play();
             }
         });
 
@@ -190,9 +183,23 @@ public class menu {
             return new SimpleBooleanProperty(pizza.isVegan()); // Call isVegan() which fetches the ingredients
         });
 
-        pizzaMenuTable.getColumns().addAll(pizzaNameColumn, pizzaPriceColumn, vegetarianColumn, veganColumn);
+        TableColumn<Pizza, String> ingredientsColumn = new TableColumn<>("Ingredients");
+        ingredientsColumn.setCellValueFactory(cellData -> {
+        Pizza pizza = cellData.getValue();
+        StringBuilder ingredientsList = new StringBuilder();
+        for (PizzaIngredient ingredient : pizza.getIngredients()) {
+            ingredientsList.append(ingredient.getIngredient().getIngredientName()).append(", ");
+        }
+        // Remove the trailing comma and space, if any
+        if (ingredientsList.length() > 0) {
+            ingredientsList.setLength(ingredientsList.length() - 2);
+        }
+        return new SimpleStringProperty(ingredientsList.toString());
+    });
 
-    }
+    pizzaMenuTable.getColumns().addAll(pizzaNameColumn, pizzaPriceColumn, vegetarianColumn, veganColumn, ingredientsColumn);
+}
+
 
     private void setupDrinkTable() {
         TableColumn<Drink, String> drinkNameColumn = new TableColumn<>("Drink Name");
@@ -226,7 +233,8 @@ public class menu {
     }
 
     private void addPizzaToCart(Pizza pizza) {
-        cart.addPizza(pizza); // Add selected pizza to cart
+        cart Cart = cart.getInstance(); 
+        Cart.addPizza(pizza); // Add selected pizza to cart
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Pizza Added");
         alert.setHeaderText("Added to Cart");
@@ -235,7 +243,8 @@ public class menu {
     }
 
     private void addDrinkToCart(Drink drink) {
-        cart.addDrink(drink); // Add selected drink to cart
+        cart Cart = cart.getInstance();
+        Cart.addDrink(drink); // Add selected drink to cart
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Drink Added");
         alert.setHeaderText("Added to Cart");
@@ -244,7 +253,8 @@ public class menu {
     }
 
     private void addDessertToCart(Dessert dessert) {
-        cart.addDessert(dessert); // Add selected dessert to cart
+        cart Cart = cart.getInstance();
+        Cart.addDessert(dessert); // Add selected dessert to cart
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Dessert Added");
         alert.setHeaderText("Added to Cart");
