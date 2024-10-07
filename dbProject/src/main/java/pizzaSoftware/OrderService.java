@@ -117,15 +117,27 @@ public class OrderService {
         order.setPrice(totalPrice);
         //order.setPriceDiscounted(finalPrice);
         order.setOrderItems(orderItems);
+        System.out.println("The order items are:" + order.getOrderItems());
         discountManager = new DiscountManager(order);
         double finalPrice = discountManager.applyLoyaltyDiscount(customer, totalPrice);
         finalPrice = discountManager.applyBirthdayOffer(customer, totalPrice, orderItems, menuService);
         order.setPriceDiscounted(finalPrice);
         System.out.println("The discounted price 1 :" + order.getPriceDiscounted());
+
+        for (OrderItem item : orderItems) {
+            System.out.println( ", Pizza ID: " + item.getPizzaId() + 
+                               ", Drink ID: " + item.getDrinkId() + ", Dessert ID: " + item.getDessertId() +
+                               ", Quantity: " + item.getQuantity());
+        }
        
         // Save order to the database (this requires implementation of the database logic)
-        saveOrderToDatabase(order);
+        saveOrderToDatabase(order, orderItems);
+        System.out.println(order.getOrderId());
+        System.out.println(order.getCustomerId());
+        System.out.println(order.getPrice());
+
         String orderZipCode = customer.getZipCode();
+        System.out.println("!!!CUSTOMER ZIPCODE ORDER: " + customer.getZipCode());
 
          //Send confirmation to the customer (simple print for now)
         System.out.println("Order Confirmation: ");
@@ -134,6 +146,7 @@ public class OrderService {
         System.out.println("Discounted total " + finalPrice);
         // Estimate the preparation time based on the number of pizzas
         int estimatedPreparationTime = estimatePreparationTime(pizzaCount);
+        System.out.println("ESTIMATED PREPARATION TIME : " + estimatePreparationTime(pizzaCount));
         order.setEstimatedPreparationTime(estimatedPreparationTime);
 
         DeliveryService deliveryService = new DeliveryService(orderZipCode);
@@ -154,7 +167,7 @@ public class OrderService {
         return totalPreparationTime;
     }
 
-   public void saveOrderToDatabase(Order order) {
+   public void saveOrderToDatabase(Order order, List<OrderItem> orderItems) {
     String orderQuery = "INSERT INTO Orders (customer_id, order_timestamp, status, price, price_discounted) VALUES (?, ?, ?, ?, ?)";
     
     try (Connection conn = menuService.getdbConnector().connect(); 
@@ -174,7 +187,8 @@ public class OrderService {
         try (ResultSet generatedKeys = orderStmt.getGeneratedKeys()) {
             if (generatedKeys.next()) {
                 int orderId = generatedKeys.getInt(1); // Get the generated order ID
-                saveOrderItems(conn, orderId, order.getOrderItems()); // Save associated order items
+                order.setOrderId(orderId);
+                saveOrderItems(conn, orderId, orderItems); // Save associated order items
             } else {
                 throw new SQLException("Inserting order failed, no ID obtained.");
             }
@@ -186,19 +200,35 @@ public class OrderService {
 }
 
 private void saveOrderItems(Connection conn, int orderId, List<OrderItem> orderItems) throws SQLException {
-    String itemQuery = "INSERT INTO Order_Items (order_id, pizza_id, drink_id, dessert_id, quantity) VALUES (?, ?, ?, ?, ?)";
+    String itemQuery = "INSERT INTO order_items (order_id, pizza_id, drink_id, dessert_id, quantity) VALUES (?, ?, ?, ?, ?)";
     
-    try (PreparedStatement itemStmt = conn.prepareStatement(itemQuery)) {
+    try (PreparedStatement itemStmt = conn.prepareStatement(itemQuery, Statement.RETURN_GENERATED_KEYS)) {
         for (OrderItem item : orderItems) {
-            itemStmt.setInt(1, orderId);
-            itemStmt.setInt(2, item.getPizzaId()); // Assuming you have methods to get IDs
-            itemStmt.setInt(3, item.getDrinkId());
-            itemStmt.setInt(4, item.getDessertId());
-            itemStmt.setInt(5, item.getQuantity());
-            itemStmt.addBatch(); // Add to batch
+            // Ensure the item has a quantity greater than 0
+            if (item.getQuantity() > 0) {
+                itemStmt.setInt(1, orderId); // Set the order ID
+                itemStmt.setInt(2, item.getPizzaId()); // Set the pizza ID
+                itemStmt.setInt(3, item.getDrinkId()); // Set the drink ID
+                itemStmt.setInt(4, item.getDessertId()); // Set the dessert ID
+                itemStmt.setInt(5, item.getQuantity()); // Set the quantity
+
+                // Execute the insert for this item
+                itemStmt.executeUpdate();
+
+                // Retrieve generated orderItemId (if needed)
+                try (ResultSet generatedKeys = itemStmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int orderItemId = generatedKeys.getInt(1); // Get the generated orderItem ID
+                        item.setOrderItemId(orderItemId);
+                        item.setOrderItemId(orderItemId); // Assuming you have a method to set the ID in OrderItem
+                    }
+                }
+            }
         }
-        itemStmt.executeBatch(); // Execute all inserts in one go
+    } catch (SQLException e) {
+        e.printStackTrace(); // Handle the exception accordingly
     }
+    
 }
 
 // New method for cancelling an order
@@ -238,55 +268,6 @@ public boolean cancelOrder(int orderId) {
         return false; // Return false on SQL error
     }
 }
-/* 
-// Get Delivery Area based on the delivery person ID
-private DeliveryArea getDeliveryAreaByDeliveryPersonId(int deliveryPersonId) {
-    for (DeliveryPersonArea dpa : deliveryPersonAreas) {
-        if (dpa.getDeliveryPersonId() == deliveryPersonId) {
-            // Found the delivery person area, now find the delivery area
-            int areaId = dpa.getAreaId();
-            for (DeliveryArea da : deliveryAreas) {
-                if (da.getAreaId() == areaId) {
-                    return da; // Return the corresponding DeliveryArea
-                }
-            }
-        }
-    }
-    return null; // Return null if not found
-}
 
-public int estimateDeliveryTime(int deliveryPersonId, int numberOfPizzas) {
-    DeliveryArea deliveryArea = getDeliveryAreaByDeliveryPersonId(deliveryPersonId);
-    if (deliveryArea == null) {
-        throw new IllegalArgumentException("No delivery area found for delivery person ID: " + deliveryPersonId);
-    }
-
-    int distance = deliveryArea.getDistance();
-    
-    // Base delivery time in minutes
-    int baseTime = 20; // Base time (you can adjust this)
-    int pizzaTime = 7; // Time added for each pizza in minutes
-
-    // Calculate estimated time based on distance and number of pizzas
-    int estimatedTime = baseTime + (pizzaTime * numberOfPizzas);
-
-    // Add additional time based on distance
-    switch (distance) {
-        case 1: // Close
-            estimatedTime += 0; // No extra time for close
-            break;
-        case 2: // Far
-            estimatedTime += 10; // Add 10 minutes for far
-            break;
-        case 3: // Very far
-            estimatedTime += 20; // Add 20 minutes for very far
-            break;
-        default:
-            throw new IllegalArgumentException("Invalid distance value: " + distance);
-    }
-    
-    return estimatedTime;
-}
-*/
 
 }

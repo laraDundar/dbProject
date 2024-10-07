@@ -35,7 +35,7 @@ public class loginPageController {
     private LoginManager loginManager;
 
     private static final String OWNER_USERNAME = "maria";
-    private static final String OWNER_PASSWORD = "1234";
+    private static final String OWNER_PASSWORD = "12345";
 
     public loginPageController() {
         loginManager = new LoginManager();

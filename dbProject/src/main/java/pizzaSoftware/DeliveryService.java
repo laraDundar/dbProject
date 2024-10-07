@@ -28,17 +28,18 @@ public class DeliveryService {
     }
 
     public void createDelivery(Order order, String deliveryAddress) {
+        System.out.println("the order ID !!!!! is : " + order.getOrderId());
         Delivery delivery = new Delivery(zipCode, order);
-        saveDeliveryToDatabase(delivery);
+        saveDeliveryToDatabase(delivery, order);
     }
 
-    private void saveDeliveryToDatabase(Delivery delivery) {
-        String sql = "INSERT INTO Deliveries (order_id, start_time, status) VALUES (?, ?, ?)";
+    private void saveDeliveryToDatabase(Delivery delivery, Order order) {
+        String sql = "INSERT INTO deliveries (order_id, start_time, status) VALUES (?, ?, ?)";
         try (Connection conn = dbConnector.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, delivery.getOrderId());
-            pstmt.setTimestamp(3, delivery.getStartTime());
-            pstmt.setString(4, delivery.getStatus());
+            pstmt.setInt(1, order.getOrderId());
+            pstmt.setTimestamp(2, delivery.getStartTime());
+            pstmt.setString(3, delivery.getStatus());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             // Handle exceptions
