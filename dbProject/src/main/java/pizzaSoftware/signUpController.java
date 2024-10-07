@@ -20,9 +20,6 @@ public class signUpController {
     private TextField newAccountNameTextField;
 
     @FXML
-    private TextField newAccountSurnameTextField;
-
-    @FXML
     private DatePicker newAccountBirthSelector;
 
     @FXML
@@ -94,7 +91,6 @@ public class signUpController {
         newAccountPasswordTextField.clear();
         newAccountEmailTextField.clear();
         newAccountNameTextField.clear();
-        newAccountSurnameTextField.clear();
         newAccountBirthSelector.setValue(null);
         newAccountPhoneTextField.clear();
         newAccountGenderComboBox.setValue(null);
