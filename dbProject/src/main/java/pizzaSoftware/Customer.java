@@ -103,13 +103,13 @@ public class Customer {
              
             statement.setString(1, name); // Assuming firstName is the same as name
             //statement.setString(2, name); // You might want to change this to a separate lastName if you have it
-            statement.setString(3, email);
-            statement.setString(4, phoneNumber);
-            statement.setString(5, address);
-            statement.setString(6, zipCode);
-            statement.setString(7, gender);
-            statement.setObject(8, birthdate);
-            statement.setInt(9, customerId); // Set the customerId parameter
+            statement.setString(2, email);
+            statement.setString(3, phoneNumber);
+            statement.setString(4, address);
+            statement.setString(5, zipCode);
+            statement.setString(6, gender);
+            statement.setObject(7, birthdate);
+            statement.setInt(8, customerId); // Set the customerId parameter
 
             statement.executeUpdate(); // Execute the update
 
