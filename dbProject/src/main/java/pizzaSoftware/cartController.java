@@ -51,36 +51,33 @@ public class cartController {
 
     @FXML
     public void initialize() {
-        calculateTotalPrice();
-        // Initialize Pizza TableView
         TableColumn<Pizza, String> pizzaNameColumn = new TableColumn<>("Pizza Name");
         pizzaNameColumn.setCellValueFactory(new PropertyValueFactory<>("pizzaName"));
-        
+
         TableColumn<Pizza, Double> pizzaPriceColumn = new TableColumn<>("Price");
         pizzaPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        
+
         checkoutCartTablePizza.getColumns().addAll(pizzaNameColumn, pizzaPriceColumn);
-        checkoutCartTablePizza.setItems(FXCollections.observableArrayList(cart.pizzasInCart));
-        
-        // Initialize Drink TableView
+
+        // Setup Drinks TableView
         TableColumn<Drink, String> drinkNameColumn = new TableColumn<>("Drink Name");
         drinkNameColumn.setCellValueFactory(new PropertyValueFactory<>("drinkName"));
-        
+
         TableColumn<Drink, Double> drinkPriceColumn = new TableColumn<>("Price");
         drinkPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        
+
         checkoutCartTableDrinks.getColumns().addAll(drinkNameColumn, drinkPriceColumn);
-        checkoutCartTableDrinks.setItems(FXCollections.observableArrayList(cart.drinksInCart));
-        
-        // Initialize Dessert TableView
+
+        // Setup Desserts TableView
         TableColumn<Dessert, String> dessertNameColumn = new TableColumn<>("Dessert Name");
         dessertNameColumn.setCellValueFactory(new PropertyValueFactory<>("dessertName"));
-        
+
         TableColumn<Dessert, Double> dessertPriceColumn = new TableColumn<>("Price");
         dessertPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        
+
         checkoutCartTableDesserts.getColumns().addAll(dessertNameColumn, dessertPriceColumn);
-        checkoutCartTableDesserts.setItems(FXCollections.observableArrayList(cart.dessertsInCart));
+
+        loadCartData();
     }
 
     @FXML
@@ -102,20 +99,29 @@ public class cartController {
 
     }
 
-    private void calculateTotalPrice() {
+    private double calculateTotalPrice(cart Cart) {
         double totalPrice = 0.0;
     
-        for (Pizza pizza : cart.pizzasInCart) {
+        for (Pizza pizza : Cart.pizzasInCart) {
             totalPrice += pizza.getPrice();
         }
-        for (Drink drink : cart.drinksInCart) {
+        for (Drink drink : Cart.drinksInCart) {
             totalPrice += drink.getPrice();
         }
-        for (Dessert dessert : cart.dessertsInCart) {
+        for (Dessert dessert : Cart.dessertsInCart) {
             totalPrice += dessert.getPrice();
         }
-    
-        // Set the total price in the label
-        totalPriceLabel.setText(String.format("Total: €%.2f", totalPrice));
+        return totalPrice;
+    }
+
+    private void loadCartData() {
+        cart cartInstance = cart.getInstance(); // Get the singleton instance
+
+        checkoutCartTablePizza.getItems().setAll(cartInstance.getPizzasInCart());
+        checkoutCartTableDrinks.getItems().setAll(cartInstance.getDrinksInCart());
+        checkoutCartTableDesserts.getItems().setAll(cartInstance.getDessertsInCart());
+        
+        double totalPrice = calculateTotalPrice(cartInstance);
+        totalPriceLabel.setText("Total Price: €" + String.format("%.2f", totalPrice));
     }
 }
