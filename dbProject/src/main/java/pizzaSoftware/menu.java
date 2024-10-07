@@ -233,7 +233,8 @@ public class menu {
     }
 
     private void addPizzaToCart(Pizza pizza) {
-        cart.addPizza(pizza); // Add selected pizza to cart
+        cart Cart = cart.getInstance(); 
+        Cart.addPizza(pizza); // Add selected pizza to cart
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Pizza Added");
         alert.setHeaderText("Added to Cart");
@@ -242,7 +243,8 @@ public class menu {
     }
 
     private void addDrinkToCart(Drink drink) {
-        cart.addDrink(drink); // Add selected drink to cart
+        cart Cart = cart.getInstance();
+        Cart.addDrink(drink); // Add selected drink to cart
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Drink Added");
         alert.setHeaderText("Added to Cart");
@@ -251,7 +253,8 @@ public class menu {
     }
 
     private void addDessertToCart(Dessert dessert) {
-        cart.addDessert(dessert); // Add selected dessert to cart
+        cart Cart = cart.getInstance();
+        Cart.addDessert(dessert); // Add selected dessert to cart
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Dessert Added");
         alert.setHeaderText("Added to Cart");
