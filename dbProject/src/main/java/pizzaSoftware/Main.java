@@ -100,6 +100,8 @@ public class Main {
         
         
         String password = "password123";
+
+        System.out.println ("EVERYTHING GOOD HERE!!!!");
         
         System.out.println("Registering customer...");
         loginManager.registerCustomer(customer, password);
@@ -120,22 +122,18 @@ public class Main {
         System.out.println(customer.getAddress());
         System.out.println(customer.getZipCode());
 
+        System.out.println();
+        System.out.println();
+
         // Sample customer registration and login
       
         
        
             
-            // Create a list of pizza IDs to order
-            List<Integer> pizzaIds = new ArrayList<>();
-            pizzaIds.add(1); // Assuming pizza ID 1 exists
-            pizzaIds.add(2); // Assuming pizza ID 2 exists
-            
-            // Create a list of drink IDs to order
-            List<Integer> drinkIds = new ArrayList<>();
-            drinkIds.add(1); // Assuming drink ID 1 exists
-            
-            // No desserts in this order
-            List<Integer> dessertIds = new ArrayList<>();
+        List<Integer> pizzaIds = Arrays.asList(1, 1, 2); // Two of pizza ID 1, and one of pizza ID 2
+        List<Integer> drinkIds = Arrays.asList(3);
+        List<Integer> dessertIds = Arrays.asList(2);
+
             
             // Create an order
             OrderService orderService = new OrderService();
