@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzaSoftware.reportController">
+   <children>
+      <SplitPane dividerPositions="0.13819095477386933, 0.4472361809045226" layoutY="-6.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="400.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="166.0" prefWidth="398.0" />
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="186.0" prefWidth="398.0">
+               <children>
+                  <Label fx:id="filtersLabel" layoutX="14.0" layoutY="4.0" text="Filters:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="regionComboBox" layoutX="15.0" layoutY="42.0" onAction="#regionAction" prefWidth="100.0" promptText="Region" />
+                  <ComboBox fx:id="genderComboBox" layoutX="139.0" layoutY="42.0" onAction="#genderAction" prefWidth="120.0" promptText="Gender" />
+                  <ComboBox fx:id="ageComboBox" layoutX="280.0" layoutY="42.0" onAction="#ageAction" prefWidth="100.0" promptText="Age" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="216.0" prefWidth="243.0">
+               <children>
+                  <TableView fx:id="reportTable" layoutX="99.0" layoutY="8.0" prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <Label fx:id="reportTitleLabel" layoutX="130.0" layoutY="10.0" text="Earnings Report:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
