@@ -93,4 +93,35 @@ public class LoginManager {
         }
         return sb.toString();
     }
+
+    public Customer getCustomerByUsername(String username) {
+        Customer customer = null;
+        dbConnector connector = new dbConnector(); // Create a dbConnector instance
+    
+        try (Connection connection = dbConnection.connect()) {
+            String query = "SELECT * FROM Customers WHERE username = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+    
+            if (resultSet.next()) {
+                customer = new Customer();
+                customer.setUsername(resultSet.getString("username"));
+                customer.setName(resultSet.getString("name"));
+                customer.setAddress(resultSet.getString("address"));
+                
+                // Pass the zip code and dbConnector instance to setZipCode
+                customer.setZipCode(resultSet.getString("zip_code"), connector);
+    
+                customer.setPhoneNumber(resultSet.getString("phone_number"));
+                customer.setEmail(resultSet.getString("email"));
+                customer.setGender(resultSet.getString("gender"), connector);
+                customer.setBirthdate(resultSet.getDate("birthdate").toLocalDate());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return customer;
+    }
 }

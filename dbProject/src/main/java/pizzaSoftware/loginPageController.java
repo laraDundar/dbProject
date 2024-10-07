@@ -66,6 +66,10 @@ public class loginPageController {
 
         if (success) {
             showAlert("Login Success", "Welcome, " + username + "!");
+
+            Customer loggedInCustomer = loginManager.getCustomerByUsername(username);
+            SessionManager.getInstance().setLoggedInCustomer(loggedInCustomer);
+
             loadMainPage();
         } else {
             showAlert("Login Failed", "Invalid username or password. Please try again.");

@@ -109,6 +109,13 @@ public class menu {
 
     @FXML
     public void initialize() {
+
+        Customer loggedInCustomer = SessionManager.getLoggedInCustomer(); // Access the logged-in customer
+        if (loggedInCustomer != null) {
+            System.out.println("Logged in customer: " + loggedInCustomer.getUsername());
+        } else {
+            System.out.println("No user is currently logged in.");
+        }
         setupPizzaTable();
         setupDrinkTable();
         setupDessertTable();
