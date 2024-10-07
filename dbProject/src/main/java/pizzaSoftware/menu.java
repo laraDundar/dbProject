@@ -64,9 +64,6 @@ public class menu {
     private Button cartButton;
 
     @FXML
-    private Button orderButton;
-
-    @FXML
     void orderAction(ActionEvent event) {}
 
     @FXML

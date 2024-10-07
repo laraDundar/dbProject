@@ -82,6 +82,15 @@ public class cartController {
 
     @FXML
     void proceedCheckoutAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/orderPage.fxml"));
+            Parent mainPage = loader.load();
+            Stage stage = (Stage) proceedCheckoutButton.getScene().getWindow();
+            stage.setScene(new Scene(mainPage));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

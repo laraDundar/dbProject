@@ -7,8 +7,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzaSoftware.menu">
    <children>
-      <Button fx:id="orderButton" layoutX="330.0" layoutY="7.0" mnemonicParsing="false" onAction="#orderAction" text="Order" />
-      <Button fx:id="cartButton" layoutX="270.0" layoutY="7.0" mnemonicParsing="false" onAction="#cartButtonAction" text="Cart" />
+      <Button fx:id="cartButton" layoutX="320.0" layoutY="7.0" mnemonicParsing="false" onAction="#cartButtonAction" text="Cart" />
       <Label fx:id="pizzaMenuLabel" layoutX="150.0" layoutY="28.0" text="Pizza Menu">
          <font>
             <Font name="System Bold" size="15.0" />
