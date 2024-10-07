@@ -3,6 +3,10 @@ package pizzaSoftware;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 //this is ok 
@@ -41,6 +45,80 @@ public class Customer {
         this.passwordHash = passward;
     }
 
+    // Method to retrieve customerId from the database based on username
+    public void retrieveCustomerId(dbConnector dbConnection) {
+        String query = "SELECT customer_id FROM Customers WHERE username = ?";
+        
+        try (Connection connection = dbConnection.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+             
+            statement.setString(1, username); // Set the username parameter
+            
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    this.customerId = resultSet.getInt("customer_id"); // Retrieve the customer_id
+                } else {
+                    System.out.println("No customer found with the given username.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+     // Method to retrieve customer details from the database
+     public void retrieveCustomerDetails(dbConnector dbConnection) {
+        String query = "SELECT * FROM Customers WHERE customer_id = ?";
+
+        try (Connection connection = dbConnection.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+             
+            statement.setInt(1, customerId); // Set the customerId parameter
+            
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    this.username = resultSet.getString("username");
+                    this.name = resultSet.getString("name");
+                    this.email = resultSet.getString("email");
+                    this.phoneNumber = resultSet.getString("phone_number");
+                    this.address = resultSet.getString("address");
+                    this.zipCode = resultSet.getString("zip_code");
+                    this.gender = resultSet.getString("gender");
+                    this.birthdate = resultSet.getObject("birthdate", LocalDate.class);
+                } else {
+                    System.out.println("No customer found with the given ID.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to update customer details in the database
+    public void updateCustomerDetails(dbConnector dbConnection) {
+        String query = "UPDATE Customers SET name = ?, email = ?, phone_number = ?, address = ?, zip_code = ?, gender = ?, birthdate = ? WHERE customer_id = ?";
+
+        try (Connection connection = dbConnection.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+             
+            statement.setString(1, name); // Assuming firstName is the same as name
+            statement.setString(2, name); // You might want to change this to a separate lastName if you have it
+            statement.setString(3, email);
+            statement.setString(4, phoneNumber);
+            statement.setString(5, address);
+            statement.setString(6, zipCode);
+            statement.setString(7, gender);
+            statement.setObject(8, birthdate);
+            statement.setInt(9, customerId); // Set the customerId parameter
+
+            statement.executeUpdate(); // Execute the update
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+
 
     //all only getters and seeters for customer's attributes
 
@@ -56,12 +134,21 @@ public class Customer {
         return gender;
     }
 
+    public void setGender(String gender, dbConnector dbConnection) {
+        this.gender = gender;
+        updateCustomerDetails(dbConnection);
+    }
+
     public String getUsername(){
         return username;
     }
 
     public void setUsername(String username){
         this.username = username;
+    }
+    public void setUsername(String username, dbConnector dbConnection) {
+        this.username = username;
+        updateCustomerDetails(dbConnection);
     }
 
     public LocalDate getBirthdate(){
@@ -70,6 +157,10 @@ public class Customer {
 
     public void setBirthdate (LocalDate birthdate){
         this.birthdate = birthdate;
+    }
+    public void setBirthdate(LocalDate birthdate, dbConnector dbConnection) {
+        this.birthdate = birthdate;
+        updateCustomerDetails(dbConnection);
     }
 
     public int getPizzaOrderCount (){
@@ -101,12 +192,22 @@ public class Customer {
         this.name = name;
     }
 
+    public void setName(String name, dbConnector dbConnection) {
+        this.name = name;
+        updateCustomerDetails(dbConnection);
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setEmail(String email, dbConnector dbConnection) {
+        this.email = email;
+        updateCustomerDetails(dbConnection);
     }
 
     public String getPhoneNumber() {
@@ -117,6 +218,11 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
+    public void setPhoneNumber(String phoneNumber, dbConnector dbConnection) {
+        this.phoneNumber = phoneNumber;
+        updateCustomerDetails(dbConnection);
+    }
+
     public String getAddress() {
         return address;
     }
@@ -125,8 +231,18 @@ public class Customer {
         this.address = address;
     } 
 
+    public void setAddress(String address, dbConnector dbConnection) {
+        this.address = address;
+        updateCustomerDetails(dbConnection);
+    }
+
     public String getZipCode(){
         return zipCode;
+    }
+
+    public void setZipCode(String zipCode, dbConnector dbConnection) {
+        this.zipCode = zipCode;
+        updateCustomerDetails(dbConnection);
     }
 
 }

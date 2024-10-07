@@ -93,7 +93,7 @@ public class Main {
         LoginManager loginManager = new LoginManager();
 
         //Step 1: Register a new customer
-        Customer customer = new Customer("ghgh@hjghj", "TESTTEST", "John", "male", LocalDate.of(1997, 10, 06), "564646", "Nido ghgh", "1000AB");
+        Customer customer = new Customer("ghgh@hjghj", "test new", "John", "male", LocalDate.of(1997, 10, 06), "564646", "Nido ghgh", "1000AB");
         //customer.setUsername("john_doe");
         //customer.setPizzaOrderCount(11);
         //customer.setBirthdate(LocalDate.of(2005, 10, 06));
@@ -106,14 +106,19 @@ public class Main {
 
         // Step 2: Test correct login
         System.out.println("Logging in with correct password...");
-        boolean loginSuccess = loginManager.login("john_doe", "password123");
+        boolean loginSuccess = loginManager.login("test new", "password123");
         System.out.println("Login successful: " + loginSuccess); // Expected output: true
 
         // Step 3: Test incorrect login
         System.out.println("Logging in with incorrect password...");
         boolean loginFail = loginManager.login("john_doe", "wrongpassword");
         System.out.println("Login successful with wrong password: " + loginFail); // Expected output: false
-        System.out.println("!!!!customer id" + customer.getCustomerId());
+        dbConnector dbConnector = new dbConnector();
+        //customer.retrieveCustomerDetails(dbConnector);
+        customer.retrieveCustomerId(dbConnector);
+        System.out.println("!!!test!customer id " + customer.getCustomerId());
+        System.out.println(customer.getAddress());
+        System.out.println(customer.getZipCode());
 
         // Sample customer registration and login
       
@@ -143,7 +148,7 @@ public class Main {
             System.out.println("Estimated Preparation Time yey: " + order.getEstimatedPreparationTime() + " minutes");
 
             //Attempt to cancel the order
-    int orderIdToCancel = order.getOrderId(); // Assuming Order class has a method to get order ID
+        int orderIdToCancel = order.getOrderId(); // Assuming Order class has a method to get order ID
        boolean isCancelled = orderService.cancelOrder(orderIdToCancel);
 
         // Print cancellation result
