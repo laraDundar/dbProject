@@ -34,6 +34,11 @@ public class orderController {
     @FXML
     void cancelOrderAction(ActionEvent event) {}
 
+    @FXML
+    public void initialize() throws SQLException {
+        placeOrderController();
+    }
+
     private OrderService orderService;
     private cart cartInstance;
     private Connection connection;
