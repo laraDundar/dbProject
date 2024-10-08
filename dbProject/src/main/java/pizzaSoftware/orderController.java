@@ -36,6 +36,7 @@ public class orderController {
 
     @FXML
     public void initialize() throws SQLException {
+        System.out.println("OrderController has been initialized");
         placeOrderController();
     }
 
@@ -62,6 +63,10 @@ public class orderController {
         List<Pizza> pizzasInCart = cartInstance.getPizzasInCart();
         List<Drink> drinksInCart = cartInstance.getDrinksInCart();
         List<Dessert> dessertsInCart = cartInstance.getDessertsInCart();
+
+        System.out.println("Pizzas in Cart: " + pizzasInCart.size());
+        System.out.println("Drinks in Cart: " + drinksInCart.size());
+        System.out.println("Desserts in Cart: " + dessertsInCart.size());
 
         // Convert the cart items to their respective ID lists.
         List<Integer> pizzaIds = pizzasInCart.stream()
