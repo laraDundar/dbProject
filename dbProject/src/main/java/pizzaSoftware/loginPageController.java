@@ -41,12 +41,11 @@ public class loginPageController {
 
     public loginPageController() {
         loginManager = new LoginManager();
-        dbConnector connector = new dbConnector();
+        connector = new dbConnector();
     }
     
     private Connection getConnection() {
-        dbConnector dbConnector = new dbConnector();
-        return dbConnector.connect();
+        return connector.connect();
     }
 
     @FXML
