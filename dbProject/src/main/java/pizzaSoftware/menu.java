@@ -112,7 +112,7 @@ public class menu {
 
         Customer loggedInCustomer = SessionManager.getLoggedInCustomer(); // Access the logged-in customer
         if (loggedInCustomer != null) {
-            System.out.println("Logged in customer: " + loggedInCustomer.getUsername());
+            System.out.println("Logged in customer: " + loggedInCustomer.getGender());
         } else {
             System.out.println("No user is currently logged in.");
         }
