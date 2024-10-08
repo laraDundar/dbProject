@@ -21,6 +21,13 @@ public class DeliveryPerson {
         this.availabilityStatus = true; // Initially available
     }
 
+    public DeliveryPerson(int deliveryPersonId, String name, boolean availabilityStatus, int areaId) {
+        this.deliveryPersonId = deliveryPersonId;
+        this.name = name;
+        this.areaId = areaId;
+        this.availabilityStatus = availabilityStatus; 
+    }
+
     // Constructor to retrieve a DeliveryPerson from the database
     public DeliveryPerson(int deliveryPersonId, dbConnector dbConnection) {
         retrieveFromDatabase(deliveryPersonId, dbConnection);

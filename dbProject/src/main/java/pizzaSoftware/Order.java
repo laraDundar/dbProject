@@ -22,6 +22,30 @@ public class Order {
         return orderId;
     }
 
+    public Order(){
+        
+    }
+
+    public Order (int orderId, int customerId, Timestamp orderTimestamp, String status, double price, double priceDiscounted){
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.orderTimestamp = orderTimestamp;
+        this.status = status;
+        this.price = price;
+        this.priceDiscounted = priceDiscounted;
+    }
+
+    // Method to calculate total pizzas in the order
+    public int getTotalPizzas() {
+        int totalPizzas = 0;
+        for (OrderItem item : orderItems) {
+            if (item.getPizzaId() > 0) { // Checks if pizzaId is set, indicating it's a pizza
+                totalPizzas += item.getQuantity(); // Get the quantity of pizzas in this item
+            }
+        }
+        return totalPizzas;
+    }
+
     public void setOrderId(int orderId) {
         this.orderId = orderId;
     }

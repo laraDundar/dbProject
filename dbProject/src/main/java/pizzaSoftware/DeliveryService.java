@@ -4,31 +4,36 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DeliveryService {
-    private List<Order> orders; // List to hold orders
-    private List<DeliveryPerson> deliveryPeople; // List of delivery people
-    private List<DeliveryBatch> deliveryBatches; // List of delivery batches
+    private List<Order> orders; 
+    private List<DeliveryPerson> deliveryPeople; 
+    private List<DeliveryBatches> deliveryBatches; 
     private String zipCode;
     private dbConnector dbConnector;
 
     public DeliveryService(String zipCode) {
-        orders = new ArrayList<>();
-        deliveryPeople = new ArrayList<>();
-        deliveryBatches = new ArrayList<>();
+        this.orders = new ArrayList<>();
+        this.deliveryPeople = new ArrayList<>();
+        this.deliveryBatches = new ArrayList<>();
         this.zipCode = zipCode;
-        dbConnector = new dbConnector();
+        this.dbConnector = new dbConnector();
     }
 
-    public void createDelivery(Order order, String deliveryAddress) {
-        System.out.println("the order ID !!!!! is : " + order.getOrderId());
+    public void placeDelivery(Order order) {
+        createDelivery(order);
+        DeliveryBatches batch = scheduleDelivery(order);
+        if (batch.getOrders().size() >= 3) {
+            processDelivery(batch);
+        }
+    }
+
+    private void createDelivery(Order order) {
         Delivery delivery = new Delivery(zipCode, order);
         saveDeliveryToDatabase(delivery, order);
     }
@@ -42,147 +47,213 @@ public class DeliveryService {
             pstmt.setString(3, delivery.getStatus());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            // Handle exceptions
+            e.printStackTrace();
+            System.err.println("Failed to save delivery: " + e.getMessage());
         }
     }
 
-    // Method to place an order
-    public void placeDelivery(Order order) {
-        
-        //orders.add(order);
-        //order.setOrderTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-
-        // Schedule delivery after 5 minutes
-        createDelivery(order, zipCode);
-        scheduleDelivery(order);
-        DeliveryBatch deliveryBatch = findDeliveryBatch(order, zipCode);
-        DeliveryPerson deliveryPerson = deliveryBatch.getDeliveryPerson();
-        DeliveryArea deliveryArea = deliveryPerson.getDeliveryArea(deliveryPerson.getDeliveryPersonId());
-        System.out.println("Estimated delivey time yey: " + estimateDeliveryTime(deliveryArea.getDistance()));
-    }
-
-    // Method to schedule delivery
-    private void scheduleDelivery(Order order) {
-
-        // Check if delivery can be grouped into a batch
-        DeliveryBatch batch = findDeliveryBatch(order, zipCode);
-        if (batch == null) {
-            // Create a new batch if no suitable batch is found
-            batch = new DeliveryBatch(zipCode);
-            deliveryBatches.add(batch);
-        }
-        
+    private DeliveryBatches scheduleDelivery(Order order) {
+        DeliveryBatches batch = findOrCreateDeliveryBatch(order);
         batch.addOrder(order);
-        
-        // Check if the batch is full (3 pizzas max)
-        if (batch.getOrders().size() >= 3) {
-            processDelivery(batch);
+        return batch;
+    }
+
+    private DeliveryBatches findOrCreateDeliveryBatch(Order order) {
+
+        // Debug statement to check delivery people list
+    System.out.println("Total delivery people: " + deliveryPeople.size());
+    deliveryPeople.forEach(person -> {
+        System.out.println("Delivery Person: " + person.getName() + ", Available: " + person.isAvailable());
+    });
+        DeliveryBatches batch = findDeliveryBatchFromDB(zipCode);
+        if (batch == null) {
+            batch = new DeliveryBatches(zipCode);
+            DeliveryPerson deliveryPerson = findAvailableDeliveryPerson();
+            //System.out.println("DELIVERY PEORSON !!!: " + deliveryPerson.getName());
+            if (deliveryPerson != null) {
+                System.out.println("entered if");
+                System.out.println("DELIVERY PERSON NAME: " + deliveryPerson.getName());
+                batch.setDeliveryPerson(deliveryPerson);
+                deliveryBatches.add(batch);
+                saveDeliveryBatchToDatabase(batch);
+            } else {
+                System.out.println("No available delivery person for zip code: " + zipCode);
+            }
+        }
+        return batch;
+    }
+
+    private void saveDeliveryBatchToDatabase(DeliveryBatches batch) {
+        String sql = "INSERT INTO delivery_batches (postal_code, delivery_person_id, start_time) VALUES (?, ?, ?)";
+        try (Connection conn = dbConnector.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            pstmt.setString(1, batch.getPostalCode());
+            pstmt.setInt(2, batch.getDeliveryPerson().getDeliveryPersonId());
+            pstmt.setTimestamp(3, batch.getStartTime());
+            pstmt.executeUpdate();
+
+            ResultSet generatedKeys = pstmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                batch.setBatchId(generatedKeys.getInt(1));
+            }
+
+            saveOrdersInBatch(batch);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Failed to save delivery batch: " + e.getMessage());
         }
     }
 
-    // Method to find a delivery batch for grouping
-DeliveryBatch findDeliveryBatch(Order order, String zipCode) {
-    // Check existing delivery batches for a matching postal code
-    for (DeliveryBatch batch : deliveryBatches) {
-        if (batch.getPostalCode().equals(zipCode) &&
-            ChronoUnit.MINUTES.between(batch.getStartTime(), LocalDateTime.now()) <= 3) {
-            return batch; // Return existing batch
+    private void saveOrdersInBatch(DeliveryBatches batch) {
+        String sql = "UPDATE orders SET batch_id = ? WHERE order_id = ?";
+        try (Connection conn = dbConnector.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            for (Order order : batch.getOrders()) {
+                pstmt.setInt(1, batch.getBatchId());
+                pstmt.setInt(2, order.getOrderId());
+                pstmt.addBatch();
+            }
+            pstmt.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Failed to save orders in batch: " + e.getMessage());
         }
     }
 
+    private DeliveryBatches findDeliveryBatchFromDB(String zipCode) {
+        String sql = "SELECT * FROM delivery_batches WHERE postal_code = ? AND start_time >= NOW() - INTERVAL 3 MINUTE";
+        try (Connection conn = dbConnector.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-     // If no existing batch is found, create a new one
-     DeliveryBatch newBatch = new DeliveryBatch(zipCode);
+            pstmt.setString(1, zipCode);
+            ResultSet rs = pstmt.executeQuery();
 
-     // Find an available delivery person based on the zip code
-     DeliveryPerson assignedDeliveryPerson = findAvailableDeliveryPerson();
-     if (assignedDeliveryPerson != null) {
-         newBatch.setDeliveryPerson(assignedDeliveryPerson); // Assign the delivery person to the batch
-     } else {
-         System.out.println("No available delivery person found for zip code: " + zipCode);
-     }
- 
-     deliveryBatches.add(newBatch); // Add the new batch to the collection
-     return newBatch; // Return the new delivery batch
-}
+            if (rs.next()) {
+                DeliveryBatches batch = new DeliveryBatches(rs.getString("postal_code"));
+                batch.setBatchId(rs.getInt("batch_id"));
+                DeliveryPerson deliveryPerson = findDeliveryPersonById(rs.getInt("delivery_person_id"));
+
+                batch.setDeliveryPerson(deliveryPerson);
+                //batch.setOrders(findOrdersByBatchId(batch.getBatchId()));
+                return batch;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Failed to find delivery batch: " + e.getMessage());
+        }
+        return null;
+    }
+
+    private DeliveryPerson findAvailableDeliveryPerson() {
+        System.out.println("Searching for available delivery person for zip code: " + zipCode);
     
-    // Method to process delivery
-    private void processDelivery(DeliveryBatch batch) {
+    return deliveryPeople.stream()
+        .filter(person -> {
+            boolean available = person.isAvailable();
+            DeliveryArea area = person.getDeliveryArea(person.getDeliveryPersonId());
+            boolean zipCodeMatch = area != null && area.getZipCode().equals(zipCode);
+            
+            System.out.println("Delivery Person: " + person.getName() + ", Available: " + available + ", Zip Code Match: " + zipCodeMatch);
+            
+            return available && zipCodeMatch;
+        })
+        .findFirst()
+        .orElse(null);
+        
+        /*return deliveryPeople.stream()
+            .filter(person -> person.isAvailable() && person.getDeliveryArea(person.getDeliveryPersonId()).getZipCode().contains(zipCode))
+            .findFirst()
+            .orElse(null);*/
+    }
+
+    private DeliveryPerson findDeliveryPersonById(int deliveryPersonId) {
+        String sql = "SELECT * FROM delivery_people WHERE delivery_person_id = ?";
+        try (Connection conn = dbConnector.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, deliveryPersonId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new DeliveryPerson(
+                    deliveryPersonId,
+                    rs.getString("name"),
+                    rs.getBoolean("availability_status"),
+                    findDeliveryAreaById(rs.getInt("area_id")).getAreaId()
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Failed to find delivery person: " + e.getMessage());
+        }
+        return null;
+    }
+
+    private DeliveryArea findDeliveryAreaById(int deliveryAreaId) {
+        String sql = "SELECT * FROM delivery_areas WHERE delivery_area_id = ?";
+        try (Connection conn = dbConnector.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, deliveryAreaId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new DeliveryArea(deliveryAreaId, rs.getString("zip_code"), rs.getInt("distance"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Failed to find delivery area: " + e.getMessage());
+        }
+        return null;
+    }
+
+    private List<Order> findOrdersByBatchId(int batchId) {
+        List<Order> orders = new ArrayList<>();
+        String sql = "SELECT * FROM orders WHERE batch_id = ?";
+        try (Connection conn = dbConnector.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, batchId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                orders.add(new Order(
+                    rs.getInt("order_id"),
+                    rs.getInt("customer_id"),
+                    rs.getTimestamp("order_timestamp"),
+                    rs.getString("status"),
+                    rs.getDouble("price"),
+                    rs.getDouble("price_discounted")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Failed to find orders by batch ID: " + e.getMessage());
+        }
+        return orders;
+    }
+
+    private void processDelivery(DeliveryBatches batch) {
         DeliveryPerson availableDeliveryPerson = findAvailableDeliveryPerson();
         if (availableDeliveryPerson != null) {
             batch.setDeliveryPerson(availableDeliveryPerson);
-            availableDeliveryPerson.setUnavailable(30); // Unavailable for 30 minutes
-            // Proceed with delivery logic
-            // Update batch status, etc.
+            availableDeliveryPerson.setUnavailable(30); 
+            // Proceed with further delivery processing logic
         }
     }
 
-
-     // Method to add delivery people (to simulate availability)
-     public void addDeliveryPerson(DeliveryPerson deliveryPerson) {
+    public void addDeliveryPerson(DeliveryPerson deliveryPerson) {
         deliveryPeople.add(deliveryPerson);
     }
 
-     // Method to clear all delivery people (simulating no one is available)
-     public void clearDeliveryPeople() {
+    public void clearDeliveryPeople() {
         deliveryPeople.clear();
     }
 
-    // Method to assign a delivery person based on zip code
-    public void assignDeliveryPersonToBatch(String zipCode) {
-        // Find an existing delivery batch for the given zip code
-        DeliveryBatch batch = findDeliveryBatch(zipCode);
-
-        // Find an available delivery person in that zip code
-        for (DeliveryPerson person : deliveryPeople) {
-            if (person.getDeliveryArea(person.getDeliveryPersonId()).getAreaId() == getAreaIdFromZipCode(zipCode)) {
-                batch.setDeliveryPerson(person);
-                System.out.println("Assigned delivery person: " + person.getName() + " to the batch.");
-                return;
-            }
-        }
-
-        // If no delivery person is available
-        System.out.println("No delivery person available for zip code: " + zipCode);
-    }
-
-     // Helper method to find a delivery batch by zip code
-     private DeliveryBatch findDeliveryBatch(String zipCode) {
-        for (DeliveryBatch batch : deliveryBatches) {
-            if (batch.getPostalCode().equals(zipCode)) {
-                return batch;
-            }
-        }
-
-        // If no batch exists, create a new one
-        DeliveryBatch newBatch = new DeliveryBatch(zipCode);
-        deliveryBatches.add(newBatch);
-        System.out.println("Created a new delivery batch for zip code: " + zipCode);
-        return newBatch;
-    }
-
-    // Simulated method to convert zip code to delivery area ID
-    private int getAreaIdFromZipCode(String zipCode) {
-        // This can be more complex, but for simplicity, let's assume the zipCode matches delivery area IDs
-        return zipCode.hashCode(); // Simulated delivery area ID based on zip code
-    }
-
-
-    // Method to find an available delivery person
-    private DeliveryPerson findAvailableDeliveryPerson() {
-        for (DeliveryPerson person : deliveryPeople) {
-            // Assuming you have a method isAvailable() in DeliveryPerson
-            if (person.isAvailable() && person.getDeliveryArea(person.getDeliveryPersonId()).getZipCode().contains(zipCode)) {
-                return person; // Return the first available delivery person for the zip code
-            }
-        }
-        return null; // No available delivery person found
-    }
-
-    // Method to estimate delivery time based on distance
     public int estimateDeliveryTime(int distance) {
-        int baseTime = 10; // Base time in minutes
-        return baseTime + (distance * 5); // Adjust based on distance and number of pizzas
+        int baseTime = 10; 
+        return baseTime + (distance * 5); 
     }
 }
-
