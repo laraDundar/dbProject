@@ -41,6 +41,7 @@ public class loginPageController {
 
     public loginPageController() {
         loginManager = new LoginManager();
+        dbConnector connector = new dbConnector();
     }
     
     private Connection getConnection() {
