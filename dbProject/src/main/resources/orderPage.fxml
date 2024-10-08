@@ -5,18 +5,27 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzaSoftware.orderController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzaSoftware.orderController">
    <children>
-      <Label fx:id="orderPageTitle" layoutX="51.0" layoutY="15.0" text="Your Order:">
+      <Label fx:id="orderPageTitle" layoutX="71.0" layoutY="14.0" text="Your Order:">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="orderStatusLabel" layoutX="44.0" layoutY="75.0" text="Order Status:">
+      <Label fx:id="orderStatusLabel" layoutX="69.0" layoutY="145.0" text="Order Status:">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="cancelOrderButton" layoutX="14.0" layoutY="155.0" mnemonicParsing="false" onAction="#cancelOrderAction" text="Cancel Order" />
+      <Button fx:id="cancelOrderButton" layoutX="10.0" layoutY="205.0" mnemonicParsing="false" onAction="#cancelOrderAction" text="Cancel Order" />
+      <Label fx:id="statusShowingLabel" layoutX="119.0" layoutY="172.0" textFill="#40c64b" />
+      <Label fx:id="discountAppliedLabel" layoutX="9.0" layoutY="60.0" text="Discount Applied:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="loyaltyDiscountLabel" layoutX="10.0" layoutY="85.0" text="Loyalty Discount" />
+      <Label fx:id="birthdayDiscountLabel" layoutX="10.0" layoutY="105.0" text="Birthday Discount" />
+      <Label layoutX="175.0" layoutY="95.0" textFill="#40c64b" />
    </children>
 </AnchorPane>

@@ -14,31 +14,24 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="174.0" prefWidth="198.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="350.0" prefWidth="280.0">
                <children>
-                  <Label fx:id="yourOrderLabel" layoutX="14.0" layoutY="1.0" text="Your Order:">
+                  <Label fx:id="yourOrderLabel" layoutX="14.0" layoutY="15.0" text="Your Order:">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="discountsLabel" layoutX="14.0" layoutY="305.0" text="Discounts Applied:">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                  </Label>
-                  <TableView fx:id="checkoutCartTablePizza" layoutX="15.0" layoutY="35.0" prefHeight="84.0" prefWidth="200.0" />
-                  <TableView fx:id="checkoutCartTableDrinks" layoutX="15.0" layoutY="125.0" prefHeight="84.0" prefWidth="200.0" />
-                  <Label fx:id="birthdayDiscountLabel" layoutX="88.0" layoutY="330.0" text="Birthday Discount" />
-                  <Label fx:id="tenPizzaDiscountLabel" layoutX="86.0" layoutY="350.0" text="10 Pizzas Discount" />
-                  <TableView fx:id="checkoutCartTableDesserts" layoutX="15.0" layoutY="215.0" prefHeight="84.0" prefWidth="200.0" />
-                  <Label fx:id="totalPriceLabel" layoutX="120.0" layoutY="1.0" textFill="#dd0c0c">
+                  <TableView fx:id="checkoutCartTablePizza" layoutX="15.0" layoutY="65.0" prefHeight="84.0" prefWidth="200.0" />
+                  <TableView fx:id="checkoutCartTableDrinks" layoutX="15.0" layoutY="155.0" prefHeight="84.0" prefWidth="200.0" />
+                  <TableView fx:id="checkoutCartTableDesserts" layoutX="15.0" layoutY="245.0" prefHeight="84.0" prefWidth="200.0" />
+                  <Label fx:id="totalPriceLabel" layoutX="120.0" layoutY="15.0" textFill="#dd0c0c">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="80.0" prefWidth="298.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="99.0" prefWidth="298.0">
                <children>
                   <Button fx:id="proceedCheckoutButton" layoutX="80.0" layoutY="45.0" mnemonicParsing="false" onAction="#proceedCheckoutAction" text="Proceed to Checkout" />
                   <Button fx:id="backToMenuButton" layoutX="81.0" layoutY="10.0" mnemonicParsing="false" onAction="#backToMenuAction" text="Go Back To Menu" />

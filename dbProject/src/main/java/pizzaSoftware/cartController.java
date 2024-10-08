@@ -26,15 +26,6 @@ public class cartController {
     private Label yourOrderLabel;
 
     @FXML
-    private Label tenPizzaDiscountLabel;
-
-    @FXML
-    private Label discountsLabel;
-
-    @FXML
-    private Label birthdayDiscountLabel;
-
-    @FXML
     private TableView<Pizza> checkoutCartTablePizza;
 
     @FXML
