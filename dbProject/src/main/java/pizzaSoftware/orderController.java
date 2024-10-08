@@ -68,6 +68,11 @@ public class orderController {
         List<Integer> dessertIds = dessertsInCart.stream()
                                                  .map(Dessert::getDessertId)
                                                  .toList();
+        System.out.println("Pizza IDs: " + pizzaIds);
+
+        System.out.println("Drink IDs: " + drinkIds);
+                                                 
+        System.out.println("Dessert IDs: " + dessertIds);
 
         // Place the order via OrderService.
         Order newOrder = orderService.placeOrder(loggedInCustomer, pizzaIds, drinkIds, dessertIds);
