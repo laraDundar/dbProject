@@ -13,6 +13,24 @@ public class DeliveryPerson {
     private boolean availabilityStatus; // true if available, false otherwise
     private LocalDateTime unavailableUntil; // Track when they become available again
     private DeliveryArea deliveryArea;
+    dbConnector dbConnector;
+
+    public DeliveryPerson(){
+    }
+
+    public void setDeliveryPersonId(int delivery_person_id){
+        this.deliveryPersonId = delivery_person_id;
+    }
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setAvailabilityStatus(boolean availabilityStatus){
+        this.availabilityStatus = availabilityStatus;
+    }
+    public void setAreaId(int areaId){
+        this.areaId = areaId;
+    }
 
     public DeliveryPerson(int deliveryPersonId, String name, int areaId) {
         this.deliveryPersonId = deliveryPersonId;
@@ -109,8 +127,16 @@ public class DeliveryPerson {
         return areaId;
     }
 
-    public DeliveryArea getDeliveryArea(int deliveryPersonId){
-        return deliveryArea;
+    public DeliveryArea getDeliveryArea(int deliveryPersonId, dbConnector dbConnector, int area_id) {
+        DeliveryArea deliveryArea = new DeliveryArea();  // Create a new DeliveryArea object
+        deliveryArea = deliveryArea.retrieveFromDatabase(dbConnector, area_id);  // Retrieve based on areaId from the person
+        
+        if (deliveryArea != null) {
+            return deliveryArea;  // Return the retrieved DeliveryArea
+        } else {
+            System.out.println("No Delivery Area found for deliveryPersonId: " + deliveryPersonId);
+            return null;
+        }
     }
 
     public DeliveryArea getDeliveryArea(dbConnector dbConnection) {

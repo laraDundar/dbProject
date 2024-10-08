@@ -15,11 +15,14 @@ public class DeliveryArea {
         this.zipCode = zipCode;
         this.distance = distance;
     }
+    public DeliveryArea(){
+
+    }
 
     // Constructor to create a DeliveryArea object from database data
-    public DeliveryArea(String zipCode, dbConnector dbConnection) {
+    /*public DeliveryArea(String zipCode, dbConnector dbConnection) {
         retrieveFromDatabase(dbConnection, zipCode);
-    }
+    }*/
 
     // Method to save the DeliveryArea to the database
     public void saveToDatabase(dbConnector dbConnection) {
@@ -39,19 +42,21 @@ public class DeliveryArea {
     }
 
     // Method to retrieve DeliveryArea data from the database using the zip code
-    public void retrieveFromDatabase(dbConnector dbConnection, String zipCode) {
-        String query = "SELECT * FROM DeliveryAreas WHERE zip_code = ?";
+    public DeliveryArea retrieveFromDatabase(dbConnector dbConnection, int areaId) {
+        String query = "SELECT * FROM delivery_areas WHERE area_id = ?";
 
         try (Connection connection = dbConnection.connect();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1, zipCode);
+            statement.setInt(1, areaId);
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     this.areaId = resultSet.getInt("area_id");
-                    this.zipCode = resultSet.getString("zip_code");
+                    this.zipCode = resultSet.getString("postal_code");
                     this.distance = resultSet.getInt("distance");
+                    //System.out.println(areaId + " " + zipCode + " " + distance);
+                    return this;
                 } else {
                     System.out.println("No delivery area found for the given zip code.");
                 }
@@ -59,6 +64,7 @@ public class DeliveryArea {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     // Method to update DeliveryArea information in the database

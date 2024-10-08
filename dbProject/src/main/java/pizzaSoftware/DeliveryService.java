@@ -17,12 +17,19 @@ public class DeliveryService {
     private String zipCode;
     private dbConnector dbConnector;
 
+    int deliveryPersonId;
+                String name;
+                boolean availabilityStatus;
+                int distance;
+
     public DeliveryService(String zipCode) {
         this.orders = new ArrayList<>();
         this.deliveryPeople = new ArrayList<>();
         this.deliveryBatches = new ArrayList<>();
         this.zipCode = zipCode;
         this.dbConnector = new dbConnector();
+        loadDeliveryPeople(); // Load delivery people on initialization
+        loadDeliveryPeopleFullData();
     }
 
     public void placeDelivery(Order order) {
@@ -67,6 +74,7 @@ public class DeliveryService {
     });
         DeliveryBatches batch = findDeliveryBatchFromDB(zipCode);
         if (batch == null) {
+            System.out.println("No batch found in the DB");
             batch = new DeliveryBatches(zipCode);
             DeliveryPerson deliveryPerson = findAvailableDeliveryPerson();
             //System.out.println("DELIVERY PEORSON !!!: " + deliveryPerson.getName());
@@ -152,8 +160,11 @@ public class DeliveryService {
     return deliveryPeople.stream()
         .filter(person -> {
             boolean available = person.isAvailable();
-            DeliveryArea area = person.getDeliveryArea(person.getDeliveryPersonId());
+            System.out.println(person.getDeliveryPersonId());
+            DeliveryArea area = person.getDeliveryArea(person.getDeliveryPersonId(), dbConnector, person.getAreaId());
+            System.out.println("AREA ID: " + area.getDistance());
             boolean zipCodeMatch = area != null && area.getZipCode().equals(zipCode);
+           
             
             System.out.println("Delivery Person: " + person.getName() + ", Available: " + available + ", Zip Code Match: " + zipCodeMatch);
             
@@ -166,6 +177,33 @@ public class DeliveryService {
             .filter(person -> person.isAvailable() && person.getDeliveryArea(person.getDeliveryPersonId()).getZipCode().contains(zipCode))
             .findFirst()
             .orElse(null);*/
+    }
+
+    private void loadDeliveryPeople() {
+        dbConnector connector = new dbConnector(); // Create an instance of dbConnector
+        deliveryPeople = connector.fetchDeliveryPeople(); // Get the list of delivery people
+        System.out.println("Total delivery people: " + deliveryPeople.size());
+        deliveryPeople.forEach(person -> {
+            System.out.println("Delivery Person: " + person.getName() + ", Available: " + person.isAvailable());
+        });
+    }
+
+    // Method to load delivery people and their associated delivery areas from the database
+    private void loadDeliveryPeopleFullData() {
+        try (Connection connection = dbConnector.connect();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT dp.delivery_person_id, dp.name, dp.availability_status, da.postal_code, da.distance FROM delivery_people dp JOIN delivery_areas da ON dp.area_id = da.area_id")) {
+            
+            while (resultSet.next()) {
+                int deliveryPersonId = resultSet.getInt("delivery_person_id");
+                String name = resultSet.getString("name");
+                boolean availabilityStatus = resultSet.getBoolean("availability_status");
+                String zipCode = resultSet.getString("postal_code");
+                int distance = resultSet.getInt("distance");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private DeliveryPerson findDeliveryPersonById(int deliveryPersonId) {
@@ -200,7 +238,7 @@ public class DeliveryService {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                return new DeliveryArea(deliveryAreaId, rs.getString("zip_code"), rs.getInt("distance"));
+                return new DeliveryArea(deliveryAreaId, rs.getString("postal_code"), rs.getInt("distance"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
