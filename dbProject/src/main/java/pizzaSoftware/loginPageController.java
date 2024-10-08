@@ -34,6 +34,8 @@ public class loginPageController {
 
     private LoginManager loginManager;
 
+    private dbConnector connector;
+
     private static final String OWNER_USERNAME = "maria";
     private static final String OWNER_PASSWORD = "12345";
 
@@ -63,11 +65,13 @@ public class loginPageController {
         }
 
         boolean success = loginManager.login(username, password);
-
+        loadMainPage();
         if (success) {
             showAlert("Login Success", "Welcome, " + username + "!");
 
-            Customer loggedInCustomer = loginManager.getCustomerByUsername(username);
+            Customer loggedInCustomer = new Customer();
+            loggedInCustomer.retrieveCustomerId(connector);
+            loggedInCustomer.retrieveCustomerDetails(connector);
             SessionManager.getInstance().setLoggedInCustomer(loggedInCustomer);
 
             loadMainPage();
