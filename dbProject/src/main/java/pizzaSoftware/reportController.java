@@ -122,6 +122,14 @@ public class reportController {
     }
 
     private void setAgeParameters(PreparedStatement statement, String selectedAge) throws SQLException {
+        if (selectedAge == null) {
+            // Handle the case when selectedAge is null.
+            statement.setNull(3, java.sql.Types.INTEGER);
+            statement.setNull(4, java.sql.Types.INTEGER);
+            statement.setNull(5, java.sql.Types.VARCHAR); // Optional: set the selectedAge parameter to null if needed.
+            return; // Exit the method early.
+        }
+    
         switch (selectedAge) {
             case "18-":
                 statement.setInt(3, 0);
@@ -135,14 +143,11 @@ public class reportController {
                 statement.setInt(3, 30);
                 statement.setInt(4, 40);
                 break;
-
             default:
                 statement.setNull(3, java.sql.Types.INTEGER);
                 statement.setNull(4, java.sql.Types.INTEGER);
                 break;
         }
-        statement.setString(5, selectedAge);
+        statement.setString(5, selectedAge); // This will only run if selectedAge is not null.
     }
-
-    
 }
