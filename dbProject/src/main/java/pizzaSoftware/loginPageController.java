@@ -65,7 +65,11 @@ public class loginPageController {
         }
 
         boolean success = loginManager.login(username, password);
-        // loadMainPage();
+
+        Customer loggededInCustomer = new Customer();
+        loggededInCustomer.retrieveCustomerByUsername(connector, username);
+        SessionManager.getInstance().setLoggedInCustomer(loggededInCustomer);
+        loadMainPage();
         if (success) {
             showAlert("Login Success", "Welcome, " + username + "!");
 

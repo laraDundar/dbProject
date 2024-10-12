@@ -36,6 +36,7 @@ public class orderController {
 
     @FXML
     public void initialize() throws SQLException {
+        Customer loggedInCustomer = SessionManager.getInstance().getLoggedInCustomer();
         System.out.println("OrderController has been initialized");
         placeOrderController();
     }
@@ -43,6 +44,12 @@ public class orderController {
     private OrderService orderService;
     private cart cartInstance;
     private Connection connection;
+
+    public orderController() {
+        orderService = new OrderService();
+        cartInstance = cart.getInstance();
+        connection = null;
+    }
 
     public orderController(Connection connection) {
         orderService = new OrderService();

@@ -147,6 +147,22 @@ public class Customer {
         }
     }
 
+    // In your controller where you set the customer data
+    public void setCustomerData(Customer customer) {
+    SessionManager session = SessionManager.getInstance();
+    session.setLoggedInCustomer(customer); // Assuming this method exists.
+
+    // If you need to set specific fields.
+    session.getLoggedInCustomer().setName(customer.getName());
+    session.getLoggedInCustomer().setGender(customer.getGender());
+    session.getLoggedInCustomer().setAddress(customer.getAddress());
+    session.getLoggedInCustomer().setEmail(customer.getEmail());
+    session.getLoggedInCustomer().setBirthdate(customer.getBirthdate());
+    session.getLoggedInCustomer().setPhoneNumber(customer.getPhoneNumber());
+    session.getLoggedInCustomer().setUsername(customer.getUsername());
+    session.getLoggedInCustomer().setZipCode(customer.getZipCode());
+}
+
     //all only getters and seeters for customer's attributes
 
     public void setPasswordHash (String passwordHash){
@@ -270,6 +286,15 @@ public class Customer {
     public void setZipCode(String zipCode, dbConnector dbConnection) {
         this.zipCode = zipCode;
         updateCustomerDetails(dbConnection);
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+        // No database update here
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
 }
