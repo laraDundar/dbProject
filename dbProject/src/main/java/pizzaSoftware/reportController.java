@@ -36,16 +36,18 @@ public class reportController {
 
     @FXML
     void regionAction(ActionEvent event) {
-
+        filterReports();
     }
 
     @FXML
     void genderAction(ActionEvent event) {
+        filterReports();
 
     }
 
     @FXML
     void ageAction(ActionEvent event) {
+        filterReports();
 
     }
 
