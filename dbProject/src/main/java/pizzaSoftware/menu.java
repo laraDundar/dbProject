@@ -110,7 +110,7 @@ public class menu {
     @FXML
     public void initialize() {
 
-        Customer loggedInCustomer = SessionManager.getLoggedInCustomer(); // Access the logged-in customer
+        Customer loggedInCustomer = SessionManager.getInstance().getLoggedInCustomer();
         if (loggedInCustomer != null) {
             System.out.println("Logged in customer: " + loggedInCustomer.getGender());
         } else {

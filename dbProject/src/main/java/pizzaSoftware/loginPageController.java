@@ -65,14 +65,19 @@ public class loginPageController {
         }
 
         boolean success = loginManager.login(username, password);
-        loadMainPage();
+        // loadMainPage();
         if (success) {
             showAlert("Login Success", "Welcome, " + username + "!");
 
             Customer loggedInCustomer = new Customer();
-            loggedInCustomer.retrieveCustomerId(connector);
-            loggedInCustomer.retrieveCustomerDetails(connector);
-            SessionManager.getInstance().setLoggedInCustomer(loggedInCustomer);
+            loggedInCustomer.retrieveCustomerByUsername(connector, username);
+        
+            if (loggedInCustomer.getCustomerId() != 0) { // Ensure that a valid customer is retrieved.
+                SessionManager.getInstance().setLoggedInCustomer(loggedInCustomer);
+                loadMainPage();
+            } else {
+                showAlert("Login Failed", "Customer not found. Please try again.");
+            }
 
             loadMainPage();
         } else {

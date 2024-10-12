@@ -2,7 +2,7 @@ package pizzaSoftware;
 
 public class SessionManager {
     private static SessionManager instance;
-    private static Customer loggedInCustomer;
+    private Customer loggedInCustomer;
 
     private SessionManager() {
         // Private constructor to prevent instantiation
@@ -17,12 +17,12 @@ public class SessionManager {
     }
 
     // Store the logged-in customer
-    public static void setLoggedInCustomer(Customer customer) {
+    public void setLoggedInCustomer(Customer customer) {
         loggedInCustomer = customer;
     }
 
     // Get the logged-in customer
-    public static Customer getLoggedInCustomer() {
+    public Customer getLoggedInCustomer() {
         return loggedInCustomer;
     }
 }

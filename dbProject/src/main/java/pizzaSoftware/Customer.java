@@ -117,8 +117,35 @@ public class Customer {
             e.printStackTrace();
         }
     }
-    
 
+    public void retrieveCustomerByUsername(dbConnector dbConnection, String username) {
+        String query = "SELECT * FROM Customers WHERE username = ?";
+        
+        try (Connection connection = dbConnection.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+             
+            statement.setString(1, username); // Set the username parameter
+            
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Retrieve all necessary fields
+                    this.customerId = resultSet.getInt("customer_id");
+                    this.username = resultSet.getString("username");
+                    this.name = resultSet.getString("name");
+                    this.email = resultSet.getString("email");
+                    this.phoneNumber = resultSet.getString("phone_number");
+                    this.address = resultSet.getString("address");
+                    this.zipCode = resultSet.getString("zip_code");
+                    this.gender = resultSet.getString("gender");
+                    this.birthdate = resultSet.getObject("birthdate", LocalDate.class);
+                } else {
+                    System.out.println("No customer found with the given username.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     //all only getters and seeters for customer's attributes
 
