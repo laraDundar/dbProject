@@ -16,10 +16,13 @@ public class DiscountManager {
 
      // Method to check if a customer gets a 10% discount after 10 pizzas
      public double applyLoyaltyDiscount(Customer customer, double totalPrice) {
+        ///System.out.println("HWYYYYYYYYY");
+        //System.out.println();
         if (customer.getPizzaOrderCount() >= 10) {
             System.out.println("Congratulations! You receive a 10% loyalty discount.");
             totalPrice *= 0.90; // Apply 10% discount
             customer.resetPizzaOrderCount();//the customer has again the # of pizzas reset to 0
+            return totalPrice;
         }
         return totalPrice;
     }
