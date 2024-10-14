@@ -68,6 +68,7 @@ public class loginPageController {
 
         Customer loggededInCustomer = new Customer();
         loggededInCustomer.retrieveCustomerByUsername(connector, username);
+        System.out.println("Customer ID after retrieval: " + loggededInCustomer.getCustomerId());
         SessionManager.getInstance().setLoggedInCustomer(loggededInCustomer);
         loadMainPage();
         if (success) {
