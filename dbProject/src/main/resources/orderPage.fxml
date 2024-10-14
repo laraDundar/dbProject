@@ -5,19 +5,14 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzaSoftware.orderController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzaSoftware.orderController">
    <children>
-      <Label fx:id="orderPageTitle" layoutX="71.0" layoutY="14.0" text="Your Order:">
+      <Label fx:id="orderStatusLabel" layoutX="28.0" layoutY="50.0" text="Order Status: Order is placed.">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="orderStatusLabel" layoutY="75.0" text="Order Status: Order is placed.">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Button fx:id="cancelOrderButton" layoutX="70.0" layoutY="130.0" mnemonicParsing="false" onAction="#cancelOrderAction" text="Cancel Order" />
+      <Button fx:id="cancelOrderButton" layoutX="72.0" layoutY="80.0" mnemonicParsing="false" onAction="#cancelOrderAction" text="Cancel Order" />
       <Label fx:id="statusShowingLabel" layoutX="119.0" layoutY="172.0" textFill="#40c64b" />
       <Label layoutX="175.0" layoutY="95.0" textFill="#40c64b" />
    </children>

@@ -19,9 +19,6 @@ public class orderController {
     private boolean canCancelOrder = true;
 
     @FXML
-    private Label orderPageTitle;
-
-    @FXML
     private Button cancelOrderButton;
 
     @FXML
