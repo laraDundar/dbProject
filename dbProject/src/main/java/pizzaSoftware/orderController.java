@@ -5,10 +5,18 @@ import java.util.List;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class orderController {
+
+    private Timer cancellationTimer;
+    private boolean canCancelOrder = true;
 
     @FXML
     private Label orderPageTitle;
@@ -32,7 +40,26 @@ public class orderController {
     private Label orderStatusLabel;
 
     @FXML
-    void cancelOrderAction(ActionEvent event) {}
+    void cancelOrderAction(ActionEvent event) {
+        if (canCancelOrder) {
+            // Proceed with cancellation
+            Order currentOrder = SessionManager.getInstance().getCurrentOrder();
+            if (currentOrder != null) {
+                boolean success = orderService.cancelOrder(currentOrder.getOrderId());
+                if (success) {
+                    showAlert("Order Cancelled", "Your order has been successfully cancelled.");
+                    clearCart();
+                    cancelTimer(); // Cancel the timer after successful cancellation
+                } else {
+                    showAlert("Cancellation Failed", "Unable to cancel the order. Please try again.");
+                }
+            } else {
+                showAlert("Order Error", "No order found to cancel.");
+            }
+        } else {
+            showAlert("Cancellation Failed", "The 5-minute window for order cancellation has expired.");
+        }
+    }
 
     @FXML
     public void initialize() throws SQLException {
@@ -94,6 +121,14 @@ public class orderController {
         // Place the order via OrderService.
         Order newOrder = orderService.placeOrder(loggedInCustomer, pizzaIds, drinkIds, dessertIds);
 
+        if (newOrder != null && newOrder.getOrderId() != 0) {
+            // Store the new order in SessionManager for later use (e.g., for cancellation)
+            SessionManager.getInstance().setCurrentOrder(newOrder);
+            // Start the 5-minute cancellation timer
+            startCancellationTimer();
+            System.out.println("Order placed and stored in SessionManager with order ID: " + newOrder.getOrderId());
+        }
+
         // Clear the cart after placing the order.
         clearCart();
     }
@@ -104,5 +139,33 @@ public class orderController {
         cartInstance.drinksInCart.clear();
         cartInstance.dessertsInCart.clear();
         System.out.println("Cart has been cleared after placing the order.");
+    }
+
+    public void showAlert(String title, String message) {
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle(title);
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.showAndWait();
+    }
+
+    private void startCancellationTimer() {
+        cancellationTimer = new Timer();
+
+        // Schedule the task to disable order cancellation after 5 minutes
+        cancellationTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                canCancelOrder = false; // Disable order cancellation after 5 minutes
+                System.out.println("Cancellation window has expired.");
+            }
+        }, TimeUnit.MINUTES.toMillis(5)); // Delay of 5 minutes
+    }
+
+    private void cancelTimer() {
+        if (cancellationTimer != null) {
+            cancellationTimer.cancel();
+            System.out.println("Cancellation timer stopped.");
+        }
     }
 }
