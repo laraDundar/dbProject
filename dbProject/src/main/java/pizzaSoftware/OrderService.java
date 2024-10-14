@@ -4,6 +4,7 @@ package pizzaSoftware;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -268,6 +269,45 @@ public boolean cancelOrder(int orderId) {
         return false; // Return false on SQL error
     }
 }
+
+// Method to schedule order status updates
+    /*public void processOrder(Order order, DeliveryPerson deliveryPerson) {
+        System.out.println("Order placed: " + order.getOrderId());
+        updateOrderStatus(order, OrderStatus.PLACED);
+
+        // Schedule the order to start cooking after COOKING_DELAY minutes
+        scheduler.schedule(() -> {
+            updateOrderStatus(order, OrderStatus.IN_PROGRESS);
+        }, COOKING_DELAY, TimeUnit.MINUTES);
+
+        // Schedule the order to be ready for delivery after preparation time
+        scheduler.schedule(() -> {
+            updateOrderStatus(order, OrderStatus.READY_FOR_DELIVERY);
+
+            // Check if delivery person is available and start delivery
+            if (deliveryPerson.isAvailable()) {
+                updateOrderStatus(order, OrderStatus.DELIVERY_STARTED);
+                
+                // Schedule the delivery to be completed after delivery time
+                scheduler.schedule(() -> {
+                    updateOrderStatus(order, OrderStatus.DELIVERED);
+                    System.out.println("Order delivered: " + order.getOrderId());
+                }, DELIVERY_TIME, TimeUnit.MINUTES);
+            }
+        }, COOKING_DELAY + PREPARATION_TIME, TimeUnit.MINUTES);
+    }
+
+    // Method to update order status
+    public void updateOrderStatus(Order order, OrderStatus newStatus) {
+        order.setStatus(newStatus);
+        System.out.println("Order " + order.getOrderId() + " status changed to: " + newStatus);
+    }
+
+    // Shutdown scheduler (optional, call this when the application ends)
+    public void shutdownScheduler() {
+        scheduler.shutdown();
+    }
+}*/
 
 
 }
