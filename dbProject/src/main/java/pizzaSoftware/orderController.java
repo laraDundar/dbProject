@@ -22,16 +22,7 @@ public class orderController {
     private Label orderPageTitle;
 
     @FXML
-    private Label discountAppliedLabel;
-
-    @FXML
     private Button cancelOrderButton;
-
-    @FXML
-    private Label birthdayDiscountLabel;
-
-    @FXML
-    private Label loyaltyDiscountLabel;
 
     @FXML
     private Label statusShowingLabel;
